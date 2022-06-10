@@ -39,18 +39,6 @@ export default class Categories extends Component {
     allProducts: [],
   };
 
-  handleMouseOver = (id) => {
-    this.setState({
-      cartBtnActive: true,
-    });
-  };
-
-  handleMouseLeave = () => {
-    this.setState({
-      cartBtnActive: false,
-    });
-  };
-
   render() {
     return (
       <ApolloProvider client={client}>
@@ -59,22 +47,16 @@ export default class Categories extends Component {
             {({ data, loading }) => {
               if (loading) return "LOADING ..";
 
-              const all = data.categories[0].products;
-              this.setState({
-                allProducts: all,
-              });
+              const allProducts = data.categories[0].products;
+              console.log(allProducts);
 
               return (
                 <section className='categories'>
                   <h1 className='categories-title'> Category name</h1>
                   <div className='categories-products-list'>
-                    {this.state.allProducts.map((item) => {
+                    {allProducts.map((item) => {
                       return (
-                        <div
-                          key={item.id}
-                          className='list-item'
-                          onMouseLeave={this.handleMouseLeave}
-                          onMouseOver={this.handleMouseOver}>
+                        <div key={item.id} className='list-item'>
                           <img
                             className='product-img'
                             src={item.gallery[0]}
