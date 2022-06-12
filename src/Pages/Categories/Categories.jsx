@@ -39,17 +39,22 @@ class Categories extends Component {
 
   componentWillMount() {
     this.props.data.categories &&
-      this.props.setProducts(this.props.data.categories);
+      this.props.setProducts(this.props.data.categories[0].products);
   }
 
   render() {
-    console.log(this.props);
+    console.log(this.props.products);
+    console.log(Boolean(this.props.data.categories));
+
+    const products = this.props.products;
+
+    console.log(products);
     return (
       <div className='App'>
-        {/* <section className='categories'>
+        <section className='categories'>
           <h1 className='categories-title'> Category name</h1>
           <div className='categories-products-list'>
-            {products &&
+            {products.length != 0 &&
               products.map((item) => {
                 return (
                   <div key={item.id} className='list-item'>
@@ -78,7 +83,7 @@ class Categories extends Component {
               })}
           </div>
         </section>
-        ); */}
+        );
       </div>
     );
   }
