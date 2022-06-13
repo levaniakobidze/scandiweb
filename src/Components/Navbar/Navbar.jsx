@@ -3,15 +3,29 @@ import "./Navbar.css";
 import Logo from "../../assets/Logo.svg";
 import DropDown from "../../assets/DropDown.svg";
 import Cart from "../../assets/Cart.svg";
+import { connect } from "react-redux";
+import { changeCategoryIndex } from "../../redux/actions/productActions";
 
-export default class Navbar extends Component {
+class Navbar extends Component {
   render() {
     return (
       <nav className='nav'>
         <ul className='categories-nav'>
-          <li>All</li>
-          <li>Clothes</li>
-          <li>Tech</li>
+          <li
+            className={this.props.categoryIndex == 0 ? "active-nav" : ""}
+            onClick={() => this.props.changeCategoryIndex(0)}>
+            All
+          </li>
+          <li
+            className={this.props.categoryIndex == 1 ? "active-nav" : ""}
+            onClick={() => this.props.changeCategoryIndex(1)}>
+            Clothes
+          </li>
+          <li
+            className={this.props.categoryIndex == 2 ? "active-nav" : ""}
+            onClick={() => this.props.changeCategoryIndex(2)}>
+            Tech
+          </li>
         </ul>
         <img src={Logo} alt='logo' className='logo' />
 
@@ -28,3 +42,18 @@ export default class Navbar extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    products: state.products.products,
+    categoryIndex: state.products.changeCategoryIndex,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeCategoryIndex: (products) => dispatch(changeCategoryIndex(products)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

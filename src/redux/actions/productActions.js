@@ -12,3 +12,10 @@ export const selectedProducts = (products) => {
     payload: products,
   };
 };
+
+export const changeCategoryIndex = (index) => {
+  return {
+    type: ActionTypes.CHANGE_CATEGORY_INDE,
+    payload: index,
+  };
+};

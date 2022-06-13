@@ -1,0 +1,65 @@
+.products-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.list-item {
+  width: 386px;
+  height: 444px;
+  margin: 30px 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  transition: all 0.3s;
+  position: relative;
+}
+.list-item:hover {
+  box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
+}
+.list-item:hover > .addToCart-btn {
+  opacity: 1 !important;
+}
+
+.product-img {
+  width: 356px;
+  height: 338px;
+  position: relative;
+}
+.addToCart-btn {
+  position: absolute;
+  top: 70%;
+  right: 7%;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.list-item p {
+  margin-top: 10px;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 160%;
+  /* identical to box height, or 29px */
+
+  display: flex;
+  align-items: center;
+
+  /* --c-black */
+
+  color: #1d1f22;
+}
+.list-item span {
+  margin-top: 5px;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  /* identical to box height, or 29px */
+
+  /* --c-black */
+
+  color: #1d1f22;
+}
