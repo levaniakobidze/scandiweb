@@ -2,7 +2,12 @@ import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
 import Container from "./Components/Container/Container";
 import Categories from "./Pages/Categories/Categories";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Routes,
+} from "react-router-dom";
 import PDP from "./Pages/PDP/PDP";
 import { ApolloProvider } from "react-apollo";
 import { InMemoryCache } from "apollo-boost";
@@ -23,8 +28,13 @@ class App extends Component {
             <Router>
               <Navbar />
               <Switch>
-                <Route path={"/"} render={() => <Categories />} />
-                <Route path={"/"} element={<PDP />} />
+                <Route exact path={"/"}>
+                  <Categories />
+                </Route>
+                <Route exact path={"/PDP/:productId"}>
+                  {" "}
+                  <PDP />
+                </Route>
               </Switch>
             </Router>
           </Container>

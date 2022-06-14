@@ -48,7 +48,9 @@ class ProductListing extends Component {
       products.length &&
       products.map((item) => {
         return (
-          <Link key={item.id} to={"/PDP"} state={[2, 3, 4]}>
+          <Link
+            key={item.id}
+            to={{ pathname: `/PDP/${item.id}`, state: { item: item } }}>
             <div key={item.id} className='list-item'>
               <img className='product-img' src={item.gallery[0]} alt='item' />
               <img

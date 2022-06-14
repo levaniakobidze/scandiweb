@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import "./PDP.css";
 import { connect } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { withRouter } from "react-router";
+import { gql } from "graphql-tag";
+import { graphql } from "react-apollo";
+import { Link } from "react-router-dom";
 
 export class PDP extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: this.props,
-    };
-  }
-
   componentDidMount() {
-    console.log(this.props);
+    const { id, name } = this.props.location.state.item;
   }
 
   render() {
-    return <div>PDP</div>;
+    const { id, name } = this.props.location.state.item;
+
+    console.log(this.props);
+
+    return <div>{name}</div>;
   }
 }
 const mapStateToProps = (state) => {
@@ -25,4 +25,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(PDP);
+export default withRouter(connect(mapStateToProps)(PDP));
