@@ -7,16 +7,21 @@ import { graphql } from "react-apollo";
 import { Link } from "react-router-dom";
 
 export class PDP extends Component {
-  componentDidMount() {
-    const { id, name } = this.props.location.state.item;
-  }
-
   render() {
-    const { id, name } = this.props.location.state.item;
+    const { id, name, gallery, description } = this.props.location.state.item;
+    const { item } = this.props.location.state;
 
-    console.log(this.props);
+    console.log(item);
 
-    return <div>{name}</div>;
+    return (
+      <section className='PDP'>
+        <h1>{name}</h1>
+        <img src={gallery[0]} alt='' />
+        <img src={gallery[1]} alt='' />
+        <img src={gallery[2]} alt='' />
+        {description}
+      </section>
+    );
   }
 }
 const mapStateToProps = (state) => {
