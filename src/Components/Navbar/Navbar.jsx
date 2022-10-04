@@ -4,35 +4,70 @@ import Logo from "../../assets/Logo.svg";
 import DropDown from "../../assets/DropDown.svg";
 import Cart from "../../assets/Cart.svg";
 import { connect } from "react-redux";
-import { changeCategoryIndex } from "../../redux/actions/productActions";
+import {
+  changeCategory,
+  changeCurrencyIndex,
+} from "../../redux/actions/productActions";
+import Currency from "../Currency/Currency";
+import { graphql } from "react-apollo";
+import { gql } from "graphql-tag";
+
+// Fetch categories //
+
+const CATEGORY_QUERY = gql`
+  query {
+    categories {
+      name
+    }
+  }
+`;
 
 class Navbar extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      showCurrencies: false,
+    };
+    this.showCurrencyHandler = this.showCurrencyHandler.bind(this);
+  }
+  showCurrencyHandler() {
+    this.setState({
+      showCurrencies: !this.state.showCurrencies,
+    });
+  }
+
   render() {
+    const categories = this.props.data.categories;
     return (
       <nav className='nav'>
         <ul className='categories-nav'>
-          <li
-            className={this.props.categoryIndex == 0 ? "active-nav" : ""}
-            onClick={() => this.props.changeCategoryIndex(0)}>
-            All
-          </li>
-          <li
-            className={this.props.categoryIndex == 1 ? "active-nav" : ""}
-            onClick={() => this.props.changeCategoryIndex(1)}>
-            Clothes
-          </li>
-          <li
-            className={this.props.categoryIndex == 2 ? "active-nav" : ""}
-            onClick={() => this.props.changeCategoryIndex(2)}>
-            Tech
-          </li>
+          {categories &&
+            categories.map((category, index) => {
+              return (
+                <li
+                  className={
+                    this.props.categoryIndex === index ? "active-nav" : ""
+                  }
+                  onClick={() => this.props.changeCategoryIndex(category.name)}>
+                  {category.name}
+                </li>
+              );
+            })}
         </ul>
         <img src={Logo} alt='logo' className='logo' />
 
         <div className='currency-and-cart'>
-          <div className='currency'>
+          <div className='currency' onClick={this.showCurrencyHandler}>
             $
-            <img className='currency-dropdown' src={DropDown} alt='drop' />
+            <div className='currency-dropdown'>
+              <img
+                className={this.state.showCurrencies && "dropdown-active"}
+                src={DropDown}
+                alt='drop'
+              />
+              <Currency showCurrencies={this.state.showCurrencies} />
+            </div>
           </div>
           <div className='cart'>
             <img src={Cart} alt='cart' className='cart-btn' />
@@ -52,8 +87,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeCategoryIndex: (products) => dispatch(changeCategoryIndex(products)),
+    changeCategory: (categoryName) => dispatch(changeCategory(categoryName)),
+    changeCurrencyIndex: (index) => dispatch(changeCurrencyIndex(index)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default graphql(CATEGORY_QUERY)(
+  connect(mapStateToProps, mapDispatchToProps)(Navbar)
+);

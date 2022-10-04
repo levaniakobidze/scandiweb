@@ -13,9 +13,16 @@ export const selectedProducts = (products) => {
   };
 };
 
-export const changeCategoryIndex = (index) => {
+export const changeCategory = (index) => {
   return {
-    type: ActionTypes.CHANGE_CATEGORY_INDE,
+    type: ActionTypes.CHANGE_CATEGORY,
+    payload: index,
+  };
+};
+
+export const changeCurrencyIndex = (index) => {
+  return {
+    type: ActionTypes.CHANGE_CURRENCY_INDEX,
     payload: index,
   };
 };

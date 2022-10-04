@@ -1,0 +1,38 @@
+.currency-list {
+  display: none;
+  flex-direction: column;
+  text-align: left;
+  align-items: center;
+  justify-content: space-around;
+  position: absolute;
+  left: -80%;
+  /* top: 140%; */
+  top: 130% !important;
+  width: 114px;
+  height: 169px;
+  box-shadow: 0 0 10px 1px #eeeeee;
+  padding: 2px;
+  transition: all 0.3s !important;
+}
+
+.currency-list li {
+  list-style: none;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 160%;
+  /* identical to box height, or 29px */
+  text-align: right;
+  color: #1d1f22;
+  /* background-color: #eeeeee; */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+}
+.currency-list li:hover {
+  background-color: #eeeeee;
+}

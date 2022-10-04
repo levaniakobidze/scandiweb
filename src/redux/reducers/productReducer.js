@@ -2,7 +2,8 @@ import { ActionTypes } from "../constants/action-types";
 
 const initState = {
   products: [],
-  changeCategoryIndex: 0,
+  category: "all",
+  currencyIndex: 0,
 };
 
 export const productReducer = (state = initState, { type, payload }) => {
@@ -12,9 +13,14 @@ export const productReducer = (state = initState, { type, payload }) => {
         products: (state.products = payload),
         ...state,
       };
-    case ActionTypes.CHANGE_CATEGORY_INDE:
+    case ActionTypes.CHANGE_CATEGORY:
       return {
-        changeCategoryIndex: (state.changeCategoryIndex = payload),
+        changeCategory: (state.changeCategory = payload),
+        ...state,
+      };
+    case ActionTypes.CHANGE_CURRENCY_INDEX:
+      return {
+        currencyIndex: (state.currencyIndex = payload),
         ...state,
       };
 

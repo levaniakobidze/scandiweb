@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import "./ProductListing.css";
 import { gql } from "graphql-tag";
-import CircleCart from "../../assets/CircleCart.svg";
 import { connect } from "react-redux";
 import { setProducts } from "../../redux/actions/productActions";
 import { graphql } from "react-apollo";
-import { Link } from "react-router-dom";
+import { useQuery } from "react-apollo";
+import { Query } from "react-apollo";
+import Product from "../../Components/Product/Product";
 
+// Fetch products //
 const PRODUCTS_QUERY = gql`
   query {
-    categories {
-      name
+    category(input: { title: "all" }) {
       products {
         id
         name
@@ -30,46 +31,34 @@ const PRODUCTS_QUERY = gql`
     }
   }
 `;
+
 class ProductListing extends Component {
   state = {
     cartBtnActive: false,
   };
 
   componentDidUpdate() {
-    const products = this.props.data.categories
-      ? this.props.data.categories[this.props.categoryIndex].products
-      : [];
+    const products = this.props.data.category.products;
     products && this.props.setProducts(products);
   }
 
   render() {
+    console.log(this.props.category);
     const products = this.props.products;
     return (
       products.length &&
       products.map((item) => {
         return (
-          <Link
+          <Product
             key={item.id}
-            to={{ pathname: `/PDP/${item.id}`, state: { item: item } }}>
-            <div key={item.id} className='list-item'>
-              <img className='product-img' src={item.gallery[0]} alt='item' />
-              <img
-                className={
-                  this.state.cartBtnActive
-                    ? "addToCart-btn addToCart-btn-active"
-                    : "addToCart-btn"
-                }
-                src={CircleCart}
-                alt=''
-              />
-
-              <p>{item.name}</p>
-              <span>
-                {item.prices[0].currency.symbol}
-                {item.prices[0].amount}
-              </span>
-            </div>
-          </Link>
+            id={item.id}
+            item={item}
+            name={item.name}
+            gallery={item.gallery}
+            prices={item.prices}
+            cartBtnActive={this.state.cartBtnActive}
+            currencyIndex={this.props.currencyIndex}
+          />
         );
       })
     );
@@ -79,7 +68,8 @@ class ProductListing extends Component {
 const mapStateToProps = (state) => {
   return {
     products: state.products.products,
-    categoryIndex: state.products.changeCategoryIndex,
+    category: state.products.category,
+    currencyIndex: state.products.currencyIndex,
   };
 };
 

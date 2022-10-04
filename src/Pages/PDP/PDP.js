@@ -7,19 +7,45 @@ import { graphql } from "react-apollo";
 import { Link } from "react-router-dom";
 
 export class PDP extends Component {
+  constructor() {
+    super();
+    this.state = {
+      imgIndex: 0,
+    };
+    this.changeImgIndex = this.changeImgIndex.bind(this);
+  }
+
+  changeImgIndex(index) {
+    this.setState({
+      imgIndex: index,
+    });
+    console.log(this.state.imgIndex);
+  }
+
   render() {
     const { id, name, gallery, description } = this.props.location.state.item;
-    const { item } = this.props.location.state;
-
-    console.log(item);
 
     return (
       <section className='PDP'>
-        <h1>{name}</h1>
-        <img src={gallery[0]} alt='' />
-        <img src={gallery[1]} alt='' />
-        <img src={gallery[2]} alt='' />
-        {description}
+        <div className='gallery_wrapper'>
+          <div className='small_images'>
+            <div className='small_img' onClick={() => this.changeImgIndex(0)}>
+              {" "}
+              <img src={gallery[0]} alt={id} />{" "}
+            </div>
+            <div className='small_img' onClick={() => this.changeImgIndex(1)}>
+              {" "}
+              <img src={gallery[2]} alt={id} />{" "}
+            </div>
+            <div className='small_img' onClick={() => this.changeImgIndex(2)}>
+              {" "}
+              <img src={gallery[3]} alt={id} />{" "}
+            </div>
+          </div>
+          <div className='big_image'>
+            <img src={gallery[this.state.imgIndex]} alt='' />
+          </div>
+        </div>
       </section>
     );
   }

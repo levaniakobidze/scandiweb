@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./Categories.css";
+import "./PLP.css";
 import ProductListing from "../../Components/ProductListing/ProductListing";
 
 class Categories extends Component {
