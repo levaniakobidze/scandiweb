@@ -13,10 +13,10 @@ export const selectedProducts = (products) => {
   };
 };
 
-export const changeCategory = (index) => {
+export const changeCategory = (name) => {
   return {
     type: ActionTypes.CHANGE_CATEGORY,
-    payload: index,
+    payload: name,
   };
 };
 

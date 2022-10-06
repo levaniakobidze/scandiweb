@@ -15,7 +15,7 @@ export const productReducer = (state = initState, { type, payload }) => {
       };
     case ActionTypes.CHANGE_CATEGORY:
       return {
-        changeCategory: (state.changeCategory = payload),
+        category: (state.category = payload),
         ...state,
       };
     case ActionTypes.CHANGE_CURRENCY_INDEX:

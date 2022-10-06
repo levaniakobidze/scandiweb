@@ -15,16 +15,13 @@ const CURRENCY_QUERY = gql`
 `;
 
 class Currency extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      activeCurrency: "USD",
-    };
-  }
-
   render() {
     const currencies = this.props.data.currencies;
+    const handleCurrencyClick = (index, symbol) => {
+      this.props.changeCurrencyIndex(index);
+      this.props.changeCurrency(symbol);
+    };
+
     return (
       <ul
         className={
@@ -35,7 +32,13 @@ class Currency extends Component {
         {currencies &&
           currencies.map((currencie, index) => {
             return (
-              <li onClick={() => this.props.changeCurrencyIndex(index)}>
+              <li
+                className={
+                  this.props.activeCurrency === currencie.symbol
+                    ? "curr-active"
+                    : ""
+                }
+                onClick={() => handleCurrencyClick(index, currencie.symbol)}>
                 <span>{currencie.symbol} </span>
                 <span>{currencie.label}</span>
               </li>
@@ -48,7 +51,7 @@ class Currency extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    currencyIndex: () => state.products.currencyIndex,
+    currencyIndex: state.products.currencyIndex,
   };
 };
 

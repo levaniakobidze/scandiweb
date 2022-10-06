@@ -1,9 +1,17 @@
 .nav {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.nav-container {
   height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 .active-nav {
   color: #5ece7b !important;
@@ -15,7 +23,9 @@
   align-items: center;
 }
 
-.categories-nav li {
+.categories-nav a {
+  text-decoration: none;
+  color: #1d1f22;
   height: 80px;
   list-style: none;
   cursor: pointer;
@@ -35,16 +45,24 @@
 
   color: #1d1f22;
 }
-.categories-nav li:hover {
+.categories-nav a:hover {
   color: #5ece7b;
   border-bottom: 2px solid #5ece7b;
 }
-.categories-nav li:nth-child(2) {
+.categories-nav a:nth-child(2) {
   margin: 16px;
 }
 .currency-and-cart {
   display: flex;
   align-items: center;
+}
+.currency-symbol {
+  width: 40px;
+  height: 20px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  padding: 0 2px;
 }
 .currency {
   margin-right: 15px;
@@ -56,7 +74,6 @@
 }
 .currency-dropdown {
   position: relative;
-  width: 100%;
   height: 100%;
 }
 .currency-active {
@@ -67,8 +84,7 @@
   margin: 0 5px;
   transform: rotate(180deg);
   transition: all 0.3s;
-}
-.dropdown-active {
+  margin: 0 2px;
 }
 
 .cart {

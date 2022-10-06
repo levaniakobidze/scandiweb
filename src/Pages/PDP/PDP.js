@@ -29,18 +29,17 @@ export class PDP extends Component {
       <section className='PDP'>
         <div className='gallery_wrapper'>
           <div className='small_images'>
-            <div className='small_img' onClick={() => this.changeImgIndex(0)}>
-              {" "}
-              <img src={gallery[0]} alt={id} />{" "}
-            </div>
-            <div className='small_img' onClick={() => this.changeImgIndex(1)}>
-              {" "}
-              <img src={gallery[2]} alt={id} />{" "}
-            </div>
-            <div className='small_img' onClick={() => this.changeImgIndex(2)}>
-              {" "}
-              <img src={gallery[3]} alt={id} />{" "}
-            </div>
+            {gallery &&
+              gallery.map((image, index) => {
+                return (
+                  <div
+                    className='small_img'
+                    onClick={() => this.changeImgIndex(index)}>
+                    {" "}
+                    <img src={image} alt={id} />{" "}
+                  </div>
+                );
+              })}
           </div>
           <div className='big_image'>
             <img src={gallery[this.state.imgIndex]} alt='' />

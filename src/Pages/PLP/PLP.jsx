@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./PLP.css";
 import ProductListing from "../../Components/ProductListing/ProductListing";
-
+import { connect } from "react-redux";
+import Container from "../../Components/Container/Container";
 class Categories extends Component {
   state = {
     cartBtnActive: false,
@@ -9,16 +10,24 @@ class Categories extends Component {
 
   render() {
     return (
-      <div className='App'>
-        <section className='categories'>
-          <h1 className='categories-title'> Category name</h1>
+      <section className='PLP'>
+        <Container className='PLP-container'>
+          <h1 className='categories-title'>
+            {this.props.category.toUpperCase()}
+          </h1>
           <div className='products-list'>
             <ProductListing />
           </div>
-        </section>
-      </div>
+        </Container>
+      </section>
     );
   }
 }
 
-export default Categories;
+const mapStateToProps = (state) => {
+  return {
+    category: state.products.category,
+  };
+};
+
+export default connect(mapStateToProps)(Categories);

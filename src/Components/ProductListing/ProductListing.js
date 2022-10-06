@@ -4,14 +4,14 @@ import { gql } from "graphql-tag";
 import { connect } from "react-redux";
 import { setProducts } from "../../redux/actions/productActions";
 import { graphql } from "react-apollo";
-import { useQuery } from "react-apollo";
-import { Query } from "react-apollo";
 import Product from "../../Components/Product/Product";
+import { addToCart } from "../../redux/actions/cartActions";
 
 // Fetch products //
 const PRODUCTS_QUERY = gql`
   query {
-    category(input: { title: "all" }) {
+    categories {
+      name
       products {
         id
         name
@@ -33,18 +33,18 @@ const PRODUCTS_QUERY = gql`
 `;
 
 class ProductListing extends Component {
-  state = {
-    cartBtnActive: false,
-  };
-
   componentDidUpdate() {
-    const products = this.props.data.category.products;
+    const categories = this.props.data.categories;
+    const products =
+      categories &&
+      categories.find((category) => category.name === this.props.category)
+        .products;
     products && this.props.setProducts(products);
   }
 
   render() {
-    console.log(this.props.category);
     const products = this.props.products;
+    console.log(this.props.cart);
     return (
       products.length &&
       products.map((item) => {
@@ -56,8 +56,9 @@ class ProductListing extends Component {
             name={item.name}
             gallery={item.gallery}
             prices={item.prices}
-            cartBtnActive={this.state.cartBtnActive}
             currencyIndex={this.props.currencyIndex}
+            addToCart={this.props.addToCart}
+            cart={this.cart}
           />
         );
       })
@@ -70,12 +71,14 @@ const mapStateToProps = (state) => {
     products: state.products.products,
     category: state.products.category,
     currencyIndex: state.products.currencyIndex,
+    cart: state.cart.cart,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setProducts: (products) => dispatch(setProducts(products)),
+    addToCart: (item) => dispatch(addToCart(item)),
   };
 };
 

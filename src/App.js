@@ -14,6 +14,7 @@ import { InMemoryCache } from "apollo-boost";
 import ApolloClient from "apollo-boost";
 import { Component } from "react";
 import PLP from "./Pages/PLP/PLP";
+import Cart from "./Pages/Cart/Cart";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/",
@@ -25,24 +26,23 @@ class App extends Component {
     return (
       <div>
         <ApolloProvider client={client}>
-          <Container>
-            <Router>
-              <Navbar />
-              <Switch>
-                {/* <Route exact path={"/"}>
-                  <Categories />
-                </Route> */}
-                <Route exact path={"/PDP/:productId"}>
-                  {" "}
-                  <PDP />
-                </Route>
-                <Route exact path={"/"}>
-                  {" "}
-                  <PLP />
-                </Route>
-              </Switch>
-            </Router>
-          </Container>
+          <Router>
+            <Navbar />
+            <Switch>
+              <Route exact path={"/PDP/:productId"}>
+                {" "}
+                <PDP />
+              </Route>
+              <Route exact path={"/"}>
+                {" "}
+                <PLP />
+              </Route>
+              <Route exact path={"/cart"}>
+                {" "}
+                <Cart />
+              </Route>
+            </Switch>
+          </Router>
         </ApolloProvider>
       </div>
     );

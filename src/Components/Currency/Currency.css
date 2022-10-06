@@ -5,14 +5,15 @@
   align-items: center;
   justify-content: space-around;
   position: absolute;
-  left: -80%;
-  /* top: 140%; */
-  top: 130% !important;
+  right: 0%;
+  top: 100% !important;
   width: 114px;
   height: 169px;
   box-shadow: 0 0 10px 1px #eeeeee;
+  background-color: #fff;
   padding: 2px;
   transition: all 0.3s !important;
+  z-index: 10000000;
 }
 
 .currency-list li {
@@ -32,7 +33,12 @@
   justify-content: center;
   align-items: center;
   transition: all 0.3s;
+  cursor: pointer;
 }
 .currency-list li:hover {
+  background-color: #eeeeee;
+}
+
+.curr-active {
   background-color: #eeeeee;
 }
