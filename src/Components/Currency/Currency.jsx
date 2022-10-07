@@ -20,6 +20,7 @@ class Currency extends Component {
     const handleCurrencyClick = (index, symbol) => {
       this.props.changeCurrencyIndex(index);
       this.props.changeCurrency(symbol);
+      this.props.showCurrencyHandler();
     };
 
     return (

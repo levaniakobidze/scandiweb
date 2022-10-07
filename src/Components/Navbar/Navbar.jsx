@@ -96,6 +96,7 @@ class Navbar extends Component {
             activeCurrency={this.state.activeCurrency}
             changeCurrency={this.changeCurrency}
             setState={this.setState()}
+            showCurrencyHandler={this.showCurrencyHandler}
           />
         </Container>
         {this.props.showCartOverlay && <CartOverlay />}
