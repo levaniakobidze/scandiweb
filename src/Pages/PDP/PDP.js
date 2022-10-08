@@ -3,6 +3,7 @@ import "./PDP.css";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import Container from "../../Components/Container/Container";
+import { addToCart } from "../../redux/actions/cartActions";
 
 export class PDP extends Component {
   constructor() {
@@ -10,12 +11,12 @@ export class PDP extends Component {
     this.state = {
       imgIndex: 0,
       color: "",
-      capacity: "",
-      size: "",
+      selectedAttributes: [],
     };
     this.changeImgIndex = this.changeImgIndex.bind(this);
     this.addToCartHandler = this.addToCartHandler.bind(this);
     this.changeColor = this.changeColor.bind(this);
+    this.handleAttributeClick = this.handleAttributeClick.bind(this);
   }
 
   changeImgIndex(index) {
@@ -23,14 +24,30 @@ export class PDP extends Component {
       imgIndex: index,
     });
   }
+
   addToCartHandler(item) {
-    console.log(item);
+    let customizedItem = {
+      ...item,
+      selectedAttributes: [{ ...this.state.selectedAttributes }],
+      Id: `${item.id}${Object.values(this.state.selectedAttributes)} `,
+    };
+    this.props.addToCart(customizedItem);
+    console.log(this.props.cart);
   }
 
   changeColor(color) {
     this.setState({
       color: color,
     });
+  }
+  handleAttributeClick(item, attribute) {
+    this.setState({
+      selectedAttributes: {
+        ...this.state.selectedAttributes,
+        [attribute.name.toLowerCase()]: item.value,
+      },
+    });
+    const atname = "asd";
   }
   componentDidMount() {
     this.changeColor();
@@ -41,11 +58,6 @@ export class PDP extends Component {
       this.props.location.state.item;
     const desc = new DOMParser().parseFromString(description, "text/xml")
       .firstChild.innerHTML;
-    const colors = attributes.find((attribute) => attribute.name === "Color");
-    const sizes = attributes.find((attribute) => attribute.name === "Size");
-    const capacities = attributes.find(
-      (attribute) => attribute.name === "Capacity"
-    );
 
     return (
       <section className='PDP'>
@@ -72,37 +84,63 @@ export class PDP extends Component {
           <div className='description'>
             <h1 className='brand'>{brand}</h1>
             <p className='product-title'>{name}</p>
-            <div className='PDP-capacities'>
-              {capacities &&
-                capacities.items.map((capacitie) => {
+            {attributes &&
+              attributes.map((attribute) => {
+                if (attribute.type === "text") {
                   return (
-                    <div className='capacity-cont'>
-                      {capacitie.displayValue}
+                    <div className='attribute-wrapper'>
+                      <p className='attribute-name'>{attribute.name}:</p>
+                      <div className='attribute'>
+                        {attribute.items.map((item) => {
+                          return (
+                            <div>
+                              {" "}
+                              <div
+                                className={
+                                  this.state.selectedAttributes[
+                                    `${attribute.name.toLowerCase()}`
+                                  ] === item.value
+                                    ? "text-cont text-cont-active"
+                                    : "text-cont"
+                                }
+                                onClick={() =>
+                                  this.handleAttributeClick(item, attribute)
+                                }>
+                                {item.displayValue}
+                              </div>{" "}
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   );
-                })}
-            </div>
-            <div className='PDP-sizes'>
-              {sizes &&
-                sizes.items.map((size) => {
-                  return <div className='size-cont'>{size.displayValue}</div>;
-                })}
-            </div>
-            <div className='PDP-colors'>
-              {colors &&
-                colors.items.map((color) => {
+                }
+                if (attribute.type === "swatch" && attribute.name === "Color") {
                   return (
-                    <div
-                      style={{ background: color.value }}
-                      className={
-                        this.state.color === color.value
-                          ? "color-cont color-active"
-                          : "color-cont"
-                      }
-                      onClick={() => this.changeColor(color.value)}></div>
+                    <div className='attribute-wrapper'>
+                      <p className='attribute-name'>{attribute.name}:</p>
+                      <div className='attribute'>
+                        {attribute.items.map((item) => {
+                          return (
+                            <div
+                              style={{ background: item.value }}
+                              className={
+                                this.state.selectedAttributes[
+                                  `${attribute.name.toLowerCase()}`
+                                ] === item.value
+                                  ? "color-cont color-active"
+                                  : "color-cont"
+                              }
+                              onClick={() =>
+                                this.handleAttributeClick(item, attribute)
+                              }></div>
+                          );
+                        })}
+                      </div>
+                    </div>
                   );
-                })}
-            </div>
+                }
+              })}
             <p className='PDP-price'>
               Price
               <span>
@@ -129,7 +167,14 @@ const mapStateToProps = (state) => {
   return {
     products: state.products.products,
     currencyIndex: state.products.currencyIndex,
+    cart: state.cart.cart,
   };
 };
 
-export default withRouter(connect(mapStateToProps)(PDP));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToCart: (item) => dispatch(addToCart(item)),
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PDP));

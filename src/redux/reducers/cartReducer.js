@@ -7,8 +7,12 @@ const initState = {
 
 export const cartReducer = (state = initState, { type, payload }) => {
   switch (type) {
+    /////////////////////////////////////////////
     case ActionTypes.ADD_TO_CART:
-      const alreadyInCart = state.cart.find((item) => item.id === payload.id);
+      const item = payload;
+      const alreadyInCart = state.cart.find(
+        (cartItem) => cartItem.id === item.id
+      );
 
       if (alreadyInCart) {
         return {
@@ -16,9 +20,16 @@ export const cartReducer = (state = initState, { type, payload }) => {
         };
       }
       return {
-        cart: (state.cart = [...state.cart, payload]),
-        ...state,
+        cart: [
+          ...state.cart,
+          {
+            ...item,
+            qty: 1,
+          },
+        ],
       };
+
+    ///////////////////////// EEEENDDD //////////////////////
     case ActionTypes.OPEN_CART_OVERLAY:
       return {
         openCartOverlay: (state.showCartOverlay = payload),
