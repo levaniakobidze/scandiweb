@@ -54,7 +54,6 @@ class ProductListing extends Component {
 
   render() {
     const products = this.props.products;
-    console.log(this.props.cart);
     return (
       products.length &&
       products.map((item) => {

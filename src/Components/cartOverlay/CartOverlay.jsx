@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./CartOverlay.css";
 import { closeCartOverlay } from "../../redux/actions/cartActions";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 class cartOverlay extends Component {
   constructor() {
@@ -10,13 +11,14 @@ class cartOverlay extends Component {
     this.closeCartOverlayHandler = this.closeCartOverlayHandler.bind(this);
   }
   closeCartOverlayHandler() {
-    console.log(this.props);
     this.props.closeCartOverlay();
   }
   render() {
     return (
       <div className='cart-overlay' onClick={this.closeCartOverlayHandler}>
-        <div className='cart-overlay-wrapper'></div>
+        <div className='cart-overlay-wrapper'>
+          <Link to='/cart'>cart</Link>
+        </div>
       </div>
     );
   }

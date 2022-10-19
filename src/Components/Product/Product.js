@@ -6,7 +6,12 @@ import store from "../../assets/store.svg";
 class Product extends Component {
   render() {
     const addToCartHandler = (item) => {
-      this.props.addToCart(item);
+      const customizedItem = {
+        ...item,
+        itemID: item.id,
+        selectedAttributes: [...item.attributes],
+      };
+      this.props.addToCart(customizedItem);
     };
 
     const { id, item, name, gallery, prices, currencyIndex } = this.props;

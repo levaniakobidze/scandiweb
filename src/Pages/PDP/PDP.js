@@ -29,10 +29,9 @@ export class PDP extends Component {
     let customizedItem = {
       ...item,
       selectedAttributes: [{ ...this.state.selectedAttributes }],
-      Id: `${item.id}${Object.values(this.state.selectedAttributes)} `,
+      itemID: `${item.id}${Object.values(this.state.selectedAttributes)} `,
     };
     this.props.addToCart(customizedItem);
-    console.log(this.props.cart);
   }
 
   changeColor(color) {
@@ -47,7 +46,6 @@ export class PDP extends Component {
         [attribute.name.toLowerCase()]: item.value,
       },
     });
-    const atname = "asd";
   }
   componentDidMount() {
     this.changeColor();

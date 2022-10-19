@@ -3,7 +3,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 100000;
+  background-color: #fff;
 }
 
 .nav-container {
@@ -89,4 +92,21 @@
 
 .cart {
   cursor: pointer;
+  position: relative;
+}
+.item-qty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  width: 15px;
+  height: 15px;
+  top: -30%;
+  right: -35%;
+  padding: 3px;
+  color: #fff;
+  border-radius: 50%;
+  background-color: #1d1f22;
+  position: absolute;
 }

@@ -61,9 +61,10 @@ class Navbar extends Component {
         <Container className='nav-container'>
           <ul className='categories-nav'>
             {categories &&
-              categories.map((category) => {
+              categories.map((category, index) => {
                 return (
                   <Link
+                    key={index}
                     to='/'
                     className={
                       this.props.category === category.name ? "active-nav" : ""
@@ -89,6 +90,7 @@ class Navbar extends Component {
             </div>
             <div className='cart' onClick={this.toggleCartOverlay}>
               <img src={Cart} alt='cart' className='cart-btn' />
+              <span className='item-qty'>{this.props.amount}</span>
             </div>
           </div>
           <Currency
@@ -110,6 +112,7 @@ const mapStateToProps = (state) => {
     products: state.products.products,
     category: state.products.category,
     showCartOverlay: state.cart.showCartOverlay,
+    amount: state.cart.amount,
   };
 };
 

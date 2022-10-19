@@ -34,6 +34,7 @@ class Currency extends Component {
           currencies.map((currencie, index) => {
             return (
               <li
+                key={index}
                 className={
                   this.props.activeCurrency === currencie.symbol
                     ? "curr-active"

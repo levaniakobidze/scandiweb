@@ -1,7 +1,6 @@
 import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
-import Container from "./Components/Container/Container";
-import Categories from "./Pages/PLP/PLP";
+import { connect } from "react-redux";
 import {
   BrowserRouter as Router,
   Route,
@@ -15,6 +14,7 @@ import ApolloClient from "apollo-boost";
 import { Component } from "react";
 import PLP from "./Pages/PLP/PLP";
 import Cart from "./Pages/Cart/Cart";
+import { calculate } from "./redux/actions/cartActions";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/",
@@ -22,6 +22,13 @@ const client = new ApolloClient({
 });
 
 class App extends Component {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.cart != this.props.cart) {
+      this.props.calculate();
+      console.log("calculate completed");
+    }
+  }
+
   render() {
     return (
       <div>
@@ -48,5 +55,15 @@ class App extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    cart: state.cart.cart,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    calculate: () => dispatch(calculate()),
+  };
+};
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

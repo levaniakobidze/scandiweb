@@ -114,9 +114,7 @@
   /* --c-text */
   color: #1d1f22;
 }
-.PDP-colors {
-  display: flex;
-}
+
 .color-cont {
   width: 32px;
   cursor: pointer;
@@ -133,16 +131,7 @@
   border: 2px solid rgb(255, 255, 255);
   box-shadow: 0 0 0 1px #5ece7b;
 }
-.PDP-sizes {
-  display: flex;
-}
-.PDP-capacities {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  margin: 20px 0;
-}
-.capacity-cont,
+
 .text-cont {
   border: 1px solid #1d1f22;
   width: 63px;
