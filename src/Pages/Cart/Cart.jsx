@@ -12,13 +12,11 @@ class Cart extends Component {
   }
 
   render() {
-    console.log(this.props.amount);
     const { cart } = this.props;
     return (
       <div className='cart'>
         <Container className='cart-container'>
           <h1 className='cart-title'> Cart </h1>
-          <p> ''''''''''''''''''{this.props.total} sdasd</p>
           <div className='cart-items-list-wrapper'>
             {cart.length &&
               cart.map((item) => {

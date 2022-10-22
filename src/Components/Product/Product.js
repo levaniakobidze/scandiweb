@@ -6,10 +6,15 @@ import store from "../../assets/store.svg";
 class Product extends Component {
   render() {
     const addToCartHandler = (item) => {
+      const defaultAttributes = item.attributes.map((attribute) => {
+        return {
+          [attribute.name.toLowerCase()]: attribute.items[0].value,
+        };
+      });
       const customizedItem = {
         ...item,
-        itemID: item.id,
-        selectedAttributes: [...item.attributes],
+        itemID: `${item.id}${Object.values(defaultAttributes)} `,
+        selectedAttributes: [...defaultAttributes],
       };
       this.props.addToCart(customizedItem);
     };

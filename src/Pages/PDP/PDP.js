@@ -26,9 +26,17 @@ export class PDP extends Component {
   }
 
   addToCartHandler(item) {
+    const defaultAttributes = item.attributes.map((attribute) => {
+      return {
+        [attribute.name.toLowerCase()]: attribute.items[0].value,
+      };
+    });
     let customizedItem = {
       ...item,
-      selectedAttributes: [{ ...this.state.selectedAttributes }],
+      selectedAttributes:
+        this.state.selectedAttributes.length === 0
+          ? [...defaultAttributes]
+          : [{ ...this.state.selectedAttributes }],
       itemID: `${item.id}${Object.values(this.state.selectedAttributes)} `,
     };
     this.props.addToCart(customizedItem);

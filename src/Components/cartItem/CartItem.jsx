@@ -6,7 +6,6 @@ import { increaseQty, decreaseQty } from "../../redux/actions/cartActions";
 class CartItem extends Component {
   constructor() {
     super();
-
     this.increase = this.increase.bind(this);
     this.decrease = this.decrease.bind(this);
   }
@@ -25,6 +24,7 @@ class CartItem extends Component {
       attributes,
       selectedAttributes,
       qty,
+      prices,
       gallery,
     } = this.props;
 
@@ -33,29 +33,41 @@ class CartItem extends Component {
         <div className='cart-item-details'>
           <h3 className='cart-item-title'>{name}</h3>
           <p className='cartItem-brand'>{brand}</p>
+          <span className='cartItem-price'>
+            {prices[this.props.currencyIndex].currency.symbol}
+            {prices[this.props.currencyIndex].amount}
+          </span>
           <div className='attributes-wrapper'>
             {/* //////////////////////////// */}
 
             {attributes &&
-              attributes.map((attribute, index) => {
+              attributes.map((attribute, attributeIndex) => {
                 if (attribute.type === "text") {
                   return (
-                    <div key={index} className='attribute-wrapper'>
+                    <div key={attributeIndex} className='attribute-wrapper'>
                       <p className='attribute-name'>{attribute.name}:</p>
                       <div className='attribute'>
-                        {attribute.items.map((item, index) => {
+                        {attribute.items.map((item, itemIndex) => {
+                          // console.log(
+                          //   selectedAttributes[itemIndex][
+                          //     `${attribute.name.toLowerCase()}`
+                          //   ]
+                          // );
+
                           return (
-                            <div key={index}>
+                            <div key={itemIndex}>
                               {" "}
                               <div
-                                className={
-                                  selectedAttributes.length &&
-                                  selectedAttributes[0][
-                                    `${attribute.name.toLowerCase()}`
-                                  ] === item.value
-                                    ? "cart-item-text-cont cart-item-text-cont-active"
-                                    : "cart-item-text-cont"
-                                }>
+                                className={selectedAttributes.map(
+                                  (selected) => {
+                                    // console.log(Object.values(selected)[0]);
+                                    // console.log(item.value);
+                                    return Object.values(selected)[0] ===
+                                      item.value
+                                      ? "cart-item-text-cont cart-item-text-cont-active"
+                                      : "cart-item-text-cont";
+                                  }
+                                )}>
                                 {item.displayValue}
                               </div>{" "}
                             </div>
@@ -76,10 +88,10 @@ class CartItem extends Component {
                               key={index}
                               style={{ background: item.value }}
                               className={
-                                selectedAttributes[0][
+                                selectedAttributes[attributeIndex][
                                   `${attribute.name.toLowerCase()}`
                                 ] != undefined &&
-                                selectedAttributes[0][
+                                selectedAttributes[attributeIndex][
                                   `${attribute.name.toLowerCase()}`
                                 ] === item.value
                                   ? "cart-item-color-cont cart-item-color-active"
@@ -120,7 +132,7 @@ class CartItem extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { cart: state.cart.cart };
+  return { cart: state.cart.cart, currencyIndex: state.products.currencyIndex };
 };
 
 const mapDispatchToProps = (dispatch) => {
