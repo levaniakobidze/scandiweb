@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Product.css";
 import { Link } from "react-router-dom";
 import store from "../../assets/store.svg";
+import { connect } from "react-redux";
 
 class Product extends Component {
   render() {
@@ -13,19 +14,30 @@ class Product extends Component {
       });
       const customizedItem = {
         ...item,
-        itemID: `${item.id}${Object.values(defaultAttributes)} `,
+        itemID: `${item.id}${Object.values(defaultAttributes[0])}`,
         selectedAttributes: [...defaultAttributes],
       };
       this.props.addToCart(customizedItem);
+      console.log(customizedItem);
     };
 
-    const { id, item, name, gallery, prices, currencyIndex } = this.props;
+    const { id, item, name, gallery, prices, currencyIndex, inStock } =
+      this.props;
     return (
       <div className='product-wrapper'>
         <Link key={id} to={{ pathname: `/PDP/${id}`, state: { item } }}>
           <div key={id} className='list-item'>
-            <div className='product-img'>
+            <div
+              className={inStock ? "product-img" : "product-img out-of-stock"}>
               <img src={gallery[0]} alt='item' />
+              <p
+                className={
+                  inStock
+                    ? "out-of-stock-text"
+                    : "out-of-stock-text out-of-stock-text-active"
+                }>
+                OUT OF STOCK
+              </p>
             </div>
 
             <p>{name}</p>
@@ -38,11 +50,20 @@ class Product extends Component {
         <button
           className={"addToCart-btn"}
           onClick={() => addToCartHandler(item)}>
-          <img src={store} alt='' />
+          {!this.props.cart.find((cartItem) => cartItem.id === item.id) ? (
+            <img src={store} alt='' />
+          ) : (
+            "X"
+          )}
         </button>
       </div>
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    cart: state.cart.cart,
+  };
+};
 
-export default Product;
+export default connect(mapStateToProps)(Product);

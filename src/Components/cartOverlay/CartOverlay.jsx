@@ -3,6 +3,7 @@ import "./CartOverlay.css";
 import { closeCartOverlay } from "../../redux/actions/cartActions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import CartItem from "../cartItem/CartItem";
 
 class cartOverlay extends Component {
   constructor() {
@@ -17,6 +18,11 @@ class cartOverlay extends Component {
     return (
       <div className='cart-overlay' onClick={this.closeCartOverlayHandler}>
         <div className='cart-overlay-wrapper'>
+          <div className='cart-overlay-list'>
+            {this.props.cart.map((item) => {
+              return <CartItem {...item} />;
+            })}
+          </div>
           <Link to='/cart'>cart</Link>
         </div>
       </div>
@@ -27,6 +33,7 @@ class cartOverlay extends Component {
 const mapStateToProps = (state) => {
   return {
     showCartOverlay: state.cart.showCartOverlay,
+    cart: state.cart.cart,
   };
 };
 const mapDispatchToProps = (dispatch) => {

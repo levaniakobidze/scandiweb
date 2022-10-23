@@ -68,6 +68,7 @@ class ProductListing extends Component {
             currencyIndex={this.props.currencyIndex}
             addToCart={this.props.addToCart}
             cart={this.cart}
+            inStock={item.inStock}
           />
         );
       })

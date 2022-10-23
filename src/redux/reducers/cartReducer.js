@@ -17,6 +17,9 @@ export const cartReducer = (state = initState, { type, payload }) => {
       );
 
       if (alreadyInCart) {
+        state.cart = state.cart.filter(
+          (cartItem) => cartItem.itemID !== item.itemID
+        );
         return {
           ...state,
         };
@@ -32,6 +35,7 @@ export const cartReducer = (state = initState, { type, payload }) => {
       };
 
     ///////////////////////// EEEENDDD //////////////////////
+
     case ActionTypes.OPEN_CART_OVERLAY:
       return {
         openCartOverlay: (state.showCartOverlay = payload),
@@ -59,8 +63,6 @@ export const cartReducer = (state = initState, { type, payload }) => {
     case ActionTypes.INCREASE_QTY:
       let cartItem = state.cart.find((item) => item.itemID === payload);
       cartItem.qty = cartItem.qty + 1;
-      console.log(state.cart);
-      // state.cart =
       state.cart = [...state.cart];
       return {
         ...state,
@@ -75,9 +77,6 @@ export const cartReducer = (state = initState, { type, payload }) => {
       };
 
     default:
-      return {
-        ...state,
-      };
-      break;
+      return state;
   }
 };

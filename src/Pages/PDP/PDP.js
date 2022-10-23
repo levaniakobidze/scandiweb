@@ -12,6 +12,7 @@ export class PDP extends Component {
       imgIndex: 0,
       color: "",
       selectedAttributes: [],
+      itemID: "",
     };
     this.changeImgIndex = this.changeImgIndex.bind(this);
     this.addToCartHandler = this.addToCartHandler.bind(this);
@@ -37,9 +38,14 @@ export class PDP extends Component {
         this.state.selectedAttributes.length === 0
           ? [...defaultAttributes]
           : [{ ...this.state.selectedAttributes }],
-      itemID: `${item.id}${Object.values(this.state.selectedAttributes)} `,
+      itemID:
+        this.state.selectedAttributes.length === 0
+          ? `${item.id}${Object.values(defaultAttributes[0])}`
+          : `${item.id}${Object.values(this.state.selectedAttributes)}`,
     };
+
     this.props.addToCart(customizedItem);
+    console.log(customizedItem.itemID);
   }
 
   changeColor(color) {
@@ -47,16 +53,36 @@ export class PDP extends Component {
       color: color,
     });
   }
-  handleAttributeClick(item, attribute) {
-    this.setState({
-      selectedAttributes: {
-        ...this.state.selectedAttributes,
-        [attribute.name.toLowerCase()]: item.value,
+  handleAttributeClick(item, attribute, id) {
+    this.setState(
+      {
+        selectedAttributes: {
+          ...this.state.selectedAttributes,
+          [attribute.name.toLowerCase()]: item.value,
+        },
+        itemID: `${id}${Object.values(this.state.selectedAttributes)}`,
       },
-    });
+      function () {
+        this.setState({
+          itemID: `${id}${Object.values(this.state.selectedAttributes)}`,
+        });
+      }
+    );
   }
   componentDidMount() {
     this.changeColor();
+    const defaultAttributes = this.props.location.state.item.attributes.map(
+      (attribute) => {
+        return {
+          [attribute.name.toLowerCase()]: attribute.items[0].value,
+        };
+      }
+    );
+    this.setState({
+      itemID: `${this.props.location.state.item.id}${Object.values(
+        defaultAttributes[0]
+      )}`,
+    });
   }
 
   render() {
@@ -110,7 +136,7 @@ export class PDP extends Component {
                                     : "text-cont"
                                 }
                                 onClick={() =>
-                                  this.handleAttributeClick(item, attribute)
+                                  this.handleAttributeClick(item, attribute, id)
                                 }>
                                 {item.displayValue}
                               </div>{" "}
@@ -160,7 +186,11 @@ export class PDP extends Component {
               onClick={() =>
                 this.addToCartHandler(this.props.location.state.item)
               }>
-              ADD TO CART
+              {this.props.cart.find(
+                (cartItem) => cartItem.itemID === this.state.itemID
+              )
+                ? "REMOVE FROM CART"
+                : "ADD TO CART"}
             </button>
             <p className='product-description'>{desc}</p>
           </div>

@@ -5,12 +5,6 @@ import { connect } from "react-redux";
 import CartItem from "../../Components/cartItem/CartItem";
 
 class Cart extends Component {
-  componentDidUpdate(prevProps, prevState) {
-    // if (prevProps.cart != this.props.cart) {
-    // }
-    // console.log("loger");
-  }
-
   render() {
     const { cart } = this.props;
     return (

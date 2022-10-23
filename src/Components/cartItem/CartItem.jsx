@@ -6,14 +6,33 @@ import { increaseQty, decreaseQty } from "../../redux/actions/cartActions";
 class CartItem extends Component {
   constructor() {
     super();
-    this.increase = this.increase.bind(this);
-    this.decrease = this.decrease.bind(this);
+    this.state = {
+      cartImgIndex: 0,
+    };
+    this.increaseQtyHandler = this.increaseQtyHandler.bind(this);
+    this.decreaseQtyHandler = this.decreaseQtyHandler.bind(this);
+    this.increaseImgIndex = this.increaseImgIndex.bind(this);
+    this.decreaseImgIndex = this.decreaseImgIndex.bind(this);
   }
-  increase(id) {
+  increaseQtyHandler(id) {
     this.props.increaseQty(id);
   }
-  decrease(id) {
+  decreaseQtyHandler(id) {
     this.props.decreaseQty(id);
+  }
+  increaseImgIndex(gallery) {
+    if (gallery.length - 2 >= this.state.cartImgIndex) {
+      this.setState({
+        cartImgIndex: this.state.cartImgIndex + 1,
+      });
+    }
+  }
+  decreaseImgIndex() {
+    if (this.state.cartImgIndex != 0) {
+      this.setState({
+        cartImgIndex: this.state.cartImgIndex - 1,
+      });
+    }
   }
 
   render() {
@@ -48,24 +67,16 @@ class CartItem extends Component {
                       <p className='attribute-name'>{attribute.name}:</p>
                       <div className='attribute'>
                         {attribute.items.map((item, itemIndex) => {
-                          // console.log(
-                          //   selectedAttributes[itemIndex][
-                          //     `${attribute.name.toLowerCase()}`
-                          //   ]
-                          // );
-
                           return (
                             <div key={itemIndex}>
                               {" "}
                               <div
                                 className={selectedAttributes.map(
                                   (selected) => {
-                                    // console.log(Object.values(selected)[0]);
-                                    // console.log(item.value);
                                     return Object.values(selected)[0] ===
                                       item.value
-                                      ? "cart-item-text-cont cart-item-text-cont-active"
-                                      : "cart-item-text-cont";
+                                      ? " cart-item-text-cont-active "
+                                      : " cart-item-text-cont ";
                                   }
                                 )}>
                                 {item.displayValue}
@@ -112,18 +123,26 @@ class CartItem extends Component {
           <div className='cart-item-amount'>
             <button
               className='cart-item-change-amount-btn'
-              onClick={() => this.increase(itemID)}>
+              onClick={() => this.increaseQtyHandler(itemID)}>
               +
             </button>
             <span>{qty}</span>
             <button
               className='cart-item-change-amount-btn'
-              onClick={() => this.decrease(itemID)}>
+              onClick={() => this.decreaseQtyHandler(itemID)}>
               -
             </button>
           </div>
           <div className='cart-item-image'>
-            <img src={gallery[0]} alt={name} />
+            <img src={gallery[this.state.cartImgIndex]} alt={name} />
+            <div className='image-buttons'>
+              <button onClick={() => this.decreaseImgIndex(gallery)}>
+                {"<"}
+              </button>
+              <button onClick={() => this.increaseImgIndex(gallery)}>
+                {">"}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -132,7 +151,10 @@ class CartItem extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { cart: state.cart.cart, currencyIndex: state.products.currencyIndex };
+  return {
+    cart: state.cart.cart,
+    currencyIndex: state.products.currencyIndex,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

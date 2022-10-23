@@ -25,7 +25,6 @@ class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.cart != this.props.cart) {
       this.props.calculate();
-      console.log("calculate completed");
     }
   }
 
