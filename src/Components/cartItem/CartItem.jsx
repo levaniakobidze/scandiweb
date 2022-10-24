@@ -135,14 +135,16 @@ class CartItem extends Component {
           </div>
           <div className='cart-item-image'>
             <img src={gallery[this.state.cartImgIndex]} alt={name} />
-            <div className='image-buttons'>
-              <button onClick={() => this.decreaseImgIndex(gallery)}>
-                {"<"}
-              </button>
-              <button onClick={() => this.increaseImgIndex(gallery)}>
-                {">"}
-              </button>
-            </div>
+            {gallery.length > 1 && (
+              <div className='image-buttons'>
+                <button onClick={() => this.decreaseImgIndex(gallery)}>
+                  {"<"}
+                </button>
+                <button onClick={() => this.increaseImgIndex(gallery)}>
+                  {">"}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

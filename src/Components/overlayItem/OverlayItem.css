@@ -1,10 +1,10 @@
 .overlay-cart-item {
   width: 100%;
   padding: 10px 0;
-  border-top: 1px solid #e5e5e5;
   display: flex;
   justify-content: space-between;
   padding-top: 20px;
+  align-items: center;
 }
 
 .cart-item-details {
@@ -19,7 +19,7 @@
 .cart-item-amount {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  /* justify-content: space-between; */
   align-items: center;
   margin-right: 20px;
 }
@@ -27,7 +27,6 @@
   width: 24px;
   height: 24px;
   border: 0;
-  padding: 0;
   border: 1px solid #1d1f22;
   font-size: 16px;
   cursor: pointer;

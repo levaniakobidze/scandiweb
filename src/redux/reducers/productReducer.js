@@ -4,7 +4,6 @@ const initState = {
   products: [],
   category: "all",
   currencyIndex: 0,
-  b: 3,
 };
 
 export const productReducer = (state = initState, { type, payload }) => {

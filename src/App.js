@@ -23,8 +23,12 @@ const client = new ApolloClient({
 
 class App extends Component {
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.cart != this.props.cart) {
+    if (
+      prevProps.cart != this.props.cart ||
+      prevProps.currencyIndex != this.props.currencyIndex
+    ) {
       this.props.calculate();
+      console.log("calculated");
     }
   }
 
@@ -57,6 +61,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     cart: state.cart.cart,
+    currencyIndex: state.products.currencyIndex,
   };
 };
 const mapDispatchToProps = (dispatch) => {

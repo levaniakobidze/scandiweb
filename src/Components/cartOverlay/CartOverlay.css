@@ -10,14 +10,116 @@
   display: flex;
   justify-content: right;
 }
+.cart-overlay-cont {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: right;
+  padding: 0 !important;
+}
 .cart-overlay-wrapper {
-  width: 300px;
+  width: 330px;
   background-color: #fff;
-  margin-right: 50px;
   padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+}
+.my-bag {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 160%;
+  /* identical to box height, or 26px */
+  color: #1d1f22;
+  padding: 10px 0;
+}
+.my-bag span {
+  color: #545558;
 }
 .cart-overlay-list {
   overflow-y: scroll;
   height: 400px;
   overflow-x: hidden;
+}
+.total-cont {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+.total-cont p {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 18px;
+  /* or 112% */
+  color: #1d1f22;
+}
+.total-cont span {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 160%;
+  /* identical to box height, or 26px */
+  display: flex;
+  align-items: center;
+  text-align: right;
+  color: #1d1f22;
+}
+
+.btns {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.btns button a {
+  text-decoration: none;
+}
+
+.bag-btn {
+  text-decoration: none;
+  background: #ffffff;
+  border: 1px solid #1d1f22;
+  width: 140px;
+  height: 43px;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+
+  text-transform: uppercase;
+  color: #1d1f22;
+  /* Inside auto layout */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.checkout-btn {
+  width: 140px;
+  height: 43px;
+  text-decoration: none;
+  background: #5ece7b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 120%;
+  /* identical to box height, or 17px */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-transform: uppercase;
+  /* --c-white */
+  color: #ffffff;
+  cursor: pointer;
 }

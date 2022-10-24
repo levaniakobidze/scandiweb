@@ -71,6 +71,9 @@ export const cartReducer = (state = initState, { type, payload }) => {
     case ActionTypes.DECREASE_QTY:
       let findItem = state.cart.find((item) => item.itemID === payload);
       findItem.qty = findItem.qty - 1;
+      if (findItem.qty === 0) {
+        state.cart = state.cart.filter((item) => item.itemID !== payload);
+      }
       state.cart = [...state.cart];
       return {
         ...state,
