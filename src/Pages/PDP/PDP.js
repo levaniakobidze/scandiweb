@@ -27,25 +27,29 @@ export class PDP extends Component {
   }
 
   addToCartHandler(item) {
-    const defaultAttributes = item.attributes.map((attribute) => {
-      return {
-        [attribute.name.toLowerCase()]: attribute.items[0].value,
+    let defaultAttributes = [];
+
+    for (let i = 0; i < item.attributes.length; i++) {
+      defaultAttributes = {
+        ...defaultAttributes,
+        [item.attributes[i].name.toLowerCase()]:
+          item.attributes[i].items[0].value,
       };
-    });
+    }
+
     let customizedItem = {
       ...item,
       selectedAttributes:
         this.state.selectedAttributes.length === 0
-          ? [...defaultAttributes]
+          ? [{ ...defaultAttributes }]
           : [{ ...this.state.selectedAttributes }],
       itemID:
         this.state.selectedAttributes.length === 0
-          ? `${item.id}${Object.values(defaultAttributes[0])}`
+          ? `${item.id}${Object.values(defaultAttributes)}`
           : `${item.id}${Object.values(this.state.selectedAttributes)}`,
     };
 
     this.props.addToCart(customizedItem);
-    console.log(customizedItem.itemID);
   }
 
   changeColor(color) {
@@ -54,6 +58,8 @@ export class PDP extends Component {
     });
   }
   handleAttributeClick(item, attribute, id) {
+    item = { ...item, active: true };
+
     this.setState(
       {
         selectedAttributes: {
@@ -78,10 +84,11 @@ export class PDP extends Component {
         };
       }
     );
+
     this.setState({
-      itemID: `${this.props.location.state.item.id}${Object.values(
-        defaultAttributes[0]
-      )}`,
+      itemID: `${this.props.location.state.item.id}${
+        defaultAttributes[0] ? Object.values(defaultAttributes[0]) : null
+      } `,
     });
   }
 

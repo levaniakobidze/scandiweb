@@ -1,12 +1,7 @@
 import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
 import { connect } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PDP from "./Pages/PDP/PDP";
 import { ApolloProvider } from "react-apollo";
 import { InMemoryCache } from "apollo-boost";
@@ -28,7 +23,6 @@ class App extends Component {
       prevProps.currencyIndex != this.props.currencyIndex
     ) {
       this.props.calculate();
-      console.log("calculated");
     }
   }
 

@@ -54,14 +54,16 @@ class OverlayItem extends Component {
                             <div key={itemIndex}>
                               {" "}
                               <div
-                                className={selectedAttributes.map(
-                                  (selected) => {
-                                    return Object.values(selected)[0] ===
-                                      item.value
-                                      ? " overlay-cart-item-text-cont-active "
-                                      : " overlay-cart-item-text-cont ";
-                                  }
-                                )}>
+                                className={
+                                  selectedAttributes[0][
+                                    `${attribute.name.toLowerCase()}`
+                                  ] != undefined &&
+                                  selectedAttributes[0][
+                                    `${attribute.name.toLowerCase()}`
+                                  ] === item.value
+                                    ? "overlay-cart-item-text-cont overlay-cart-item-text-cont-active "
+                                    : "overlay-cart-item-text-cont"
+                                }>
                                 {item.displayValue}
                               </div>{" "}
                             </div>
@@ -90,7 +92,7 @@ class OverlayItem extends Component {
                                 selectedAttributes[attributeIndex][
                                   `${attribute.name.toLowerCase()}`
                                 ] === item.value
-                                  ? "overlay-cart-item-color-cont overlay-cart-item-color-active"
+                                  ? "overlay-cart-item-color-cont cart-item-color-active"
                                   : "overlay-cart-item-color-cont"
                               }></div>
                           );

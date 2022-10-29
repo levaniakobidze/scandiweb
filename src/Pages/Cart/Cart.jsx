@@ -19,13 +19,13 @@ class Cart extends Component {
           </div>
           <div className='cart-total-nums'>
             <p className='persentage'>
-              Tax 21% <span>${(this.props.total / 100) * 21}</span>
+              Tax 21% <span>${((this.props.total / 100) * 21).toFixed(2)}</span>
             </p>
             <p className='cart-cuanity'>
-              Quantity: <span>${this.props.amount}</span>
+              Quantity: <span>{this.props.amount}</span>
             </p>
             <p className='cart-total'>
-              Total: <span>${this.props.total}</span>
+              Total: <span>${this.props.total.toFixed(2)}</span>
             </p>
           </div>
           <div className='cart-order-btn'>

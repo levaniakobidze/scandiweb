@@ -71,14 +71,18 @@ class CartItem extends Component {
                             <div key={itemIndex}>
                               {" "}
                               <div
-                                className={selectedAttributes.map(
-                                  (selected) => {
-                                    return Object.values(selected)[0] ===
-                                      item.value
-                                      ? " cart-item-text-cont-active "
-                                      : " cart-item-text-cont ";
-                                  }
-                                )}>
+                                // className={"cart-item-text-cont-active"}
+
+                                className={
+                                  selectedAttributes[0][
+                                    `${attribute.name.toLowerCase()}`
+                                  ] != undefined &&
+                                  selectedAttributes[0][
+                                    `${attribute.name.toLowerCase()}`
+                                  ] === item.value
+                                    ? "  cart-item-text-cont-active "
+                                    : " cart-item-text-cont"
+                                }>
                                 {item.displayValue}
                               </div>{" "}
                             </div>

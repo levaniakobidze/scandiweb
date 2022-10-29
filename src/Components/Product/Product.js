@@ -7,18 +7,20 @@ import { connect } from "react-redux";
 class Product extends Component {
   render() {
     const addToCartHandler = (item) => {
-      const defaultAttributes = item.attributes.map((attribute) => {
-        return {
-          [attribute.name.toLowerCase()]: attribute.items[0].value,
+      let defaultAttributes = [];
+      for (let i = 0; i < item.attributes.length; i++) {
+        defaultAttributes = {
+          ...defaultAttributes,
+          [item.attributes[i].name.toLowerCase()]:
+            item.attributes[i].items[0].value,
         };
-      });
+      }
       const customizedItem = {
         ...item,
-        itemID: `${item.id}${Object.values(defaultAttributes[0])}`,
-        selectedAttributes: [...defaultAttributes],
+        itemID: `${item.id}${Object.values(defaultAttributes)}`,
+        selectedAttributes: [{ ...defaultAttributes }],
       };
       this.props.addToCart(customizedItem);
-      console.log(customizedItem);
     };
 
     const { id, item, name, gallery, prices, currencyIndex, inStock } =
