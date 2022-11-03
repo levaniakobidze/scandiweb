@@ -86,10 +86,10 @@ class OverlayItem extends Component {
                               key={index}
                               style={{ background: item.value }}
                               className={
-                                selectedAttributes[attributeIndex][
+                                selectedAttributes[0][
                                   `${attribute.name.toLowerCase()}`
                                 ] != undefined &&
-                                selectedAttributes[attributeIndex][
+                                selectedAttributes[0][
                                   `${attribute.name.toLowerCase()}`
                                 ] === item.value
                                   ? "overlay-cart-item-color-cont cart-item-color-active"

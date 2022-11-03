@@ -3,7 +3,7 @@ import "./PDP.css";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import Container from "../../Components/Container/Container";
-import { addToCart } from "../../redux/actions/cartActions";
+import { addItemID, addToCart } from "../../redux/actions/cartActions";
 
 export class PDP extends Component {
   constructor() {
@@ -12,7 +12,6 @@ export class PDP extends Component {
       imgIndex: 0,
       color: "",
       selectedAttributes: [],
-      itemID: "",
     };
     this.changeImgIndex = this.changeImgIndex.bind(this);
     this.addToCartHandler = this.addToCartHandler.bind(this);
@@ -50,6 +49,31 @@ export class PDP extends Component {
     };
 
     this.props.addToCart(customizedItem);
+
+    this.props.addItemID(
+      this.state.selectedAttributes.length === 0
+        ? `${item.id}${Object.values(defaultAttributes)}`
+        : `${item.id}${Object.values(this.state.selectedAttributes)}`
+    );
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.selectedAttributes != this.state.selectedAttributes) {
+      const item = this.props.location.state.item;
+      let defaultAttributes = [];
+      for (let i = 0; i < item.attributes.length; i++) {
+        defaultAttributes = {
+          ...defaultAttributes,
+          [item.attributes[i].name.toLowerCase()]:
+            item.attributes[i].items[0].value,
+        };
+      }
+      this.props.addItemID(
+        this.state.selectedAttributes.length === 0
+          ? `${item.id}${Object.values(defaultAttributes)}`
+          : `${item.id}${Object.values(this.state.selectedAttributes)}`
+      );
+    }
   }
 
   changeColor(color) {
@@ -57,39 +81,28 @@ export class PDP extends Component {
       color: color,
     });
   }
-  handleAttributeClick(item, attribute, id) {
-    item = { ...item, active: true };
+  handleAttributeClick(attrItem, attribute, id) {
+    const item = this.props.location.state.item;
 
-    this.setState(
-      {
-        selectedAttributes: {
-          ...this.state.selectedAttributes,
-          [attribute.name.toLowerCase()]: item.value,
-        },
-        itemID: `${id}${Object.values(this.state.selectedAttributes)}`,
-      },
-      function () {
-        this.setState({
-          itemID: `${id}${Object.values(this.state.selectedAttributes)}`,
-        });
-      }
-    );
-  }
-  componentDidMount() {
-    this.changeColor();
-    const defaultAttributes = this.props.location.state.item.attributes.map(
-      (attribute) => {
-        return {
-          [attribute.name.toLowerCase()]: attribute.items[0].value,
-        };
-      }
-    );
+    let defaultAttributes = [];
+    for (let i = 0; i < item.attributes.length; i++) {
+      defaultAttributes = {
+        ...defaultAttributes,
+        [item.attributes[i].name.toLowerCase()]:
+          item.attributes[i].items[0].value,
+      };
+    }
+    attrItem = { ...attrItem, active: true };
 
     this.setState({
-      itemID: `${this.props.location.state.item.id}${
-        defaultAttributes[0] ? Object.values(defaultAttributes[0]) : null
-      } `,
+      selectedAttributes: {
+        ...this.state.selectedAttributes,
+        [attribute.name.toLowerCase()]: attrItem.value,
+      },
     });
+    this.props.addItemID(
+      `${item.id}${Object.values(this.state.selectedAttributes)}`
+    );
   }
 
   render() {
@@ -107,6 +120,7 @@ export class PDP extends Component {
                 gallery.map((image, index) => {
                   return (
                     <div
+                      key={index}
                       className='small_img'
                       onClick={() => this.changeImgIndex(index)}>
                       {" "}
@@ -124,28 +138,32 @@ export class PDP extends Component {
             <h1 className='brand'>{brand}</h1>
             <p className='product-title'>{name}</p>
             {attributes &&
-              attributes.map((attribute) => {
+              attributes.map((attribute, index) => {
                 if (attribute.type === "text") {
                   return (
-                    <div className='attribute-wrapper'>
+                    <div className='attribute-wrapper' key={index}>
                       <p className='attribute-name'>{attribute.name}:</p>
                       <div className='attribute'>
-                        {attribute.items.map((item) => {
+                        {attribute.items.map((attrItem, index) => {
                           return (
-                            <div>
+                            <div key={index}>
                               {" "}
                               <div
                                 className={
                                   this.state.selectedAttributes[
                                     `${attribute.name.toLowerCase()}`
-                                  ] === item.value
+                                  ] === attrItem.value
                                     ? "text-cont text-cont-active"
                                     : "text-cont"
                                 }
                                 onClick={() =>
-                                  this.handleAttributeClick(item, attribute, id)
+                                  this.handleAttributeClick(
+                                    attrItem,
+                                    attribute,
+                                    id
+                                  )
                                 }>
-                                {item.displayValue}
+                                {attrItem.displayValue}
                               </div>{" "}
                             </div>
                           );
@@ -156,22 +174,23 @@ export class PDP extends Component {
                 }
                 if (attribute.type === "swatch" && attribute.name === "Color") {
                   return (
-                    <div className='attribute-wrapper'>
+                    <div className='attribute-wrapper' key={index}>
                       <p className='attribute-name'>{attribute.name}:</p>
                       <div className='attribute'>
-                        {attribute.items.map((item) => {
+                        {attribute.items.map((attrItem, index) => {
                           return (
                             <div
-                              style={{ background: item.value }}
+                              key={index}
+                              style={{ background: attrItem.value }}
                               className={
                                 this.state.selectedAttributes[
                                   `${attribute.name.toLowerCase()}`
-                                ] === item.value
+                                ] === attrItem.value
                                   ? "color-cont color-active"
                                   : "color-cont"
                               }
                               onClick={() =>
-                                this.handleAttributeClick(item, attribute)
+                                this.handleAttributeClick(attrItem, attribute)
                               }></div>
                           );
                         })}
@@ -194,7 +213,7 @@ export class PDP extends Component {
                 this.addToCartHandler(this.props.location.state.item)
               }>
               {this.props.cart.find(
-                (cartItem) => cartItem.itemID === this.state.itemID
+                (cartItem) => cartItem.itemID === this.props.itemID
               )
                 ? "REMOVE FROM CART"
                 : "ADD TO CART"}
@@ -211,12 +230,14 @@ const mapStateToProps = (state) => {
     products: state.products.products,
     currencyIndex: state.products.currencyIndex,
     cart: state.cart.cart,
+    itemID: state.cart.itemID,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (item) => dispatch(addToCart(item)),
+    addItemID: (id) => dispatch(addItemID(id)),
   };
 };
 

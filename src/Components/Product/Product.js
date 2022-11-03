@@ -3,6 +3,7 @@ import "./Product.css";
 import { Link } from "react-router-dom";
 import store from "../../assets/store.svg";
 import { connect } from "react-redux";
+import { addItemID } from "../../redux/actions/cartActions";
 
 class Product extends Component {
   render() {
@@ -21,6 +22,11 @@ class Product extends Component {
         selectedAttributes: [{ ...defaultAttributes }],
       };
       this.props.addToCart(customizedItem);
+      this.props.addItemID(
+        customizedItem.selectedAttributes.length === 0
+          ? `${item.id}${Object.values(defaultAttributes)}`
+          : `${item.id}${Object.values(defaultAttributes)}`
+      );
     };
 
     const { id, item, name, gallery, prices, currencyIndex, inStock } =
@@ -65,7 +71,14 @@ class Product extends Component {
 const mapStateToProps = (state) => {
   return {
     cart: state.cart.cart,
+    itemID: state.itemID,
   };
 };
 
-export default connect(mapStateToProps)(Product);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addItemID: (id) => dispatch(addItemID(id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

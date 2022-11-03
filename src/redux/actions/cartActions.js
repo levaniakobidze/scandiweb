@@ -39,3 +39,10 @@ export const decreaseQty = (id) => {
     payload: id,
   };
 };
+
+export const addItemID = (id) => {
+  return {
+    type: ActionTypes.ADD_ITEM_ID,
+    payload: id,
+  };
+};

@@ -5,6 +5,7 @@ const initState = {
   showCartOverlay: false,
   amount: 0,
   total: 0,
+  itemID: "",
 };
 
 export const cartReducer = (state = initState, { type, payload }) => {
@@ -56,6 +57,10 @@ export const cartReducer = (state = initState, { type, payload }) => {
         state.total = total;
       });
 
+      if (state.cart.length === 0) {
+        state.amount = 0;
+      }
+
       return {
         total: total,
         ...state,
@@ -75,6 +80,12 @@ export const cartReducer = (state = initState, { type, payload }) => {
         state.cart = state.cart.filter((item) => item.itemID !== payload);
       }
       state.cart = [...state.cart];
+      return {
+        ...state,
+      };
+
+    case ActionTypes.ADD_ITEM_ID:
+      state.itemID = payload;
       return {
         ...state,
       };
