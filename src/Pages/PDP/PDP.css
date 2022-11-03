@@ -195,8 +195,6 @@
 @media all and (max-width: 1080px) {
   .PDP-container {
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
   }
   .gallery_wrapper {
     display: flex;

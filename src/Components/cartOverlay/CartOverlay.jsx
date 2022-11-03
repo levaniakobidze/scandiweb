@@ -27,7 +27,7 @@ class cartOverlay extends Component {
             </p>
             <div className='cart-overlay-list'>
               {this.props.cart.map((item) => {
-                return <OverlayItem {...item} />;
+                return <OverlayItem key={item.id} {...item} />;
               })}
             </div>
             <div className='total-cont'>
