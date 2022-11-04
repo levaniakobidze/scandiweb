@@ -6,13 +6,6 @@ export const setProducts = (products) => {
   };
 };
 
-export const selectedProducts = (products) => {
-  return {
-    type: ActionTypes.SELECTED_PRODUCTS,
-    payload: products,
-  };
-};
-
 export const changeCategory = (name) => {
   return {
     type: ActionTypes.CHANGE_CATEGORY,

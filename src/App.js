@@ -22,7 +22,7 @@ class App extends Component {
       prevProps.cart != this.props.cart ||
       prevProps.currencyIndex != this.props.currencyIndex
     ) {
-      this.props.calculate();
+      this.props.calculate(this.props.currencyIndex);
     }
   }
 
@@ -60,7 +60,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    calculate: () => dispatch(calculate()),
+    calculate: (index) => dispatch(calculate(index)),
   };
 };
 

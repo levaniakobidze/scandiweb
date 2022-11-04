@@ -38,22 +38,20 @@
   font-size: 14px;
   line-height: 120%;
   /* identical to box height, or 19px */
-
   display: flex;
   align-items: center;
   text-align: center;
   text-transform: uppercase;
-
   /* --c-text */
-
   color: #1d1f22;
+  transition: all 0.3s;
 }
 .categories-nav a:hover {
   color: #5ece7b;
   border-bottom: 2px solid #5ece7b;
 }
 .categories-nav a:nth-child(2) {
-  margin: 16px;
+  padding: 16px;
 }
 .currency-and-cart {
   display: flex;
@@ -77,15 +75,18 @@
 }
 .currency-dropdown {
   position: relative;
-  height: 100%;
 }
 .currency-active {
   display: flex !important;
 }
 
+.dropdown-active {
+  transform: rotate(180deg) !important;
+}
+
 .currency-dropdown img {
   margin: 0 5px;
-  transform: rotate(180deg);
+  transform: rotate(360deg);
   transition: all 0.3s;
   margin: 0 2px;
 }

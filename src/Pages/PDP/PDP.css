@@ -16,7 +16,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 260px;
+  height: 500px;
+  overflow-y: scroll;
+}
+.small_images::-webkit-scrollbar {
+  display: none;
 }
 .small_img {
   width: 79px;

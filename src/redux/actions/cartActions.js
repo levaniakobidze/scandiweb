@@ -19,10 +19,10 @@ export const closeCartOverlay = () => {
     payload: false,
   };
 };
-export const calculate = () => {
+export const calculate = (index) => {
   return {
     type: ActionTypes.CALCULATE,
-    payload: false,
+    payload: index,
   };
 };
 

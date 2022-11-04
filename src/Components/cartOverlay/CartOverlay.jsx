@@ -31,8 +31,11 @@ class cartOverlay extends Component {
               })}
             </div>
             <div className='total-cont'>
-              <p>Total</p>
-              <span>{this.props.total.toFixed(2)}</span>
+              <p>Total:</p>
+              <span>
+                {this.props.currencySymbol}
+                {""} {this.props.total.toFixed(2)}
+              </span>
             </div>
             <div className='btns'>
               <Link
@@ -41,7 +44,9 @@ class cartOverlay extends Component {
                 to='/cart'>
                 View bag
               </Link>
-              <a className='checkout-btn'>Checkout</a>
+              <a href='#' className='checkout-btn'>
+                Checkout
+              </a>
             </div>
           </div>
         </Container>
@@ -56,6 +61,7 @@ const mapStateToProps = (state) => {
     cart: state.cart.cart,
     total: state.cart.total,
     amount: state.cart.amount,
+    currencySymbol: state.cart.currencySymbol,
   };
 };
 const mapDispatchToProps = (dispatch) => {

@@ -6,6 +6,7 @@ const initState = {
   amount: 0,
   total: 0,
   itemID: "",
+  currencySymbol: "",
 };
 
 export const cartReducer = (state = initState, { type, payload }) => {
@@ -35,8 +36,6 @@ export const cartReducer = (state = initState, { type, payload }) => {
         ],
       };
 
-    ///////////////////////// EEEENDDD //////////////////////
-
     case ActionTypes.OPEN_CART_OVERLAY:
       return {
         openCartOverlay: (state.showCartOverlay = payload),
@@ -52,9 +51,10 @@ export const cartReducer = (state = initState, { type, payload }) => {
       let total = 0;
       state.cart.forEach((item) => {
         amount = amount + item.qty;
-        total = total + item.prices[0].amount * item.qty;
+        total = total + item.prices[payload].amount * item.qty;
         state.amount = amount;
         state.total = total;
+        state.currencySymbol = item.prices[payload].currency.symbol;
       });
 
       if (state.cart.length === 0) {

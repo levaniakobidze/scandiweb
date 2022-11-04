@@ -1,7 +1,6 @@
 .product-wrapper {
   width: 376px;
   /* width: 31%; */
-  flex-grow: 1;
   height: 444px;
   /* background-color: green; */
   position: relative;

@@ -30,7 +30,7 @@ class OverlayItem extends Component {
 
     return (
       <div className='overlay-cart-item'>
-        <div className='cart-item-details'>
+        <div className='overlay-cart-item-details'>
           <h3 className='overlay-cart-item-title'>{name}</h3>
           <p className='overlay-cartItem-brand'>{brand}</p>
           <span className='overlay-cartItem-price'>
@@ -38,8 +38,6 @@ class OverlayItem extends Component {
             {prices[this.props.currencyIndex].amount}
           </span>
           <div className='attributes-wrapper'>
-            {/* //////////////////////////// */}
-
             {attributes &&
               attributes.map((attribute, attributeIndex) => {
                 if (attribute.type === "text") {
@@ -102,12 +100,11 @@ class OverlayItem extends Component {
                   );
                 }
               })}
-
-            {/* ///////////////////////////////////// */}
           </div>
         </div>
-        <div className='cart-item-amount-images'>
-          <div className='cart-item-amount'>
+
+        <div className='overlay-cart-item-amount-images'>
+          <div className='overlay-cart-item-amount'>
             <button
               className='overlay-cart-item-change-amount-btn'
               onClick={() => this.increaseQtyHandler(itemID)}>

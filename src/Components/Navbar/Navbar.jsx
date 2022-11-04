@@ -82,7 +82,7 @@ class Navbar extends Component {
               <div className='currency-symbol'>{this.state.activeCurrency}</div>
               <div className='currency-dropdown'>
                 <img
-                  className={this.state.showCurrencies && "dropdown-active"}
+                  className={this.state.showCurrencies ? "dropdown-active" : ""}
                   src={DropDown}
                   alt='drop'
                 />

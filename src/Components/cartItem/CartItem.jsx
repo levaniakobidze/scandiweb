@@ -57,8 +57,6 @@ class CartItem extends Component {
             {prices[this.props.currencyIndex].amount}
           </span>
           <div className='attributes-wrapper'>
-            {/* //////////////////////////// */}
-
             {attributes &&
               attributes.map((attribute, attributeIndex) => {
                 if (attribute.type === "text") {
@@ -71,8 +69,6 @@ class CartItem extends Component {
                             <div key={itemIndex}>
                               {" "}
                               <div
-                                // className={"cart-item-text-cont-active"}
-
                                 className={
                                   selectedAttributes[0][
                                     `${attribute.name.toLowerCase()}`

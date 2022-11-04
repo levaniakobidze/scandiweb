@@ -108,8 +108,11 @@ export class PDP extends Component {
   render() {
     const { id, name, gallery, description, brand, prices, attributes } =
       this.props.location.state.item;
-    const desc = new DOMParser().parseFromString(description, "text/xml")
-      .firstChild.innerHTML;
+    const RenderHTML = () => {
+      return <div dangerouslySetInnerHTML={{ __html: description }} />;
+    };
+
+    console.log(RenderHTML());
 
     return (
       <section className='PDP'>
@@ -218,7 +221,7 @@ export class PDP extends Component {
                 ? "REMOVE FROM CART"
                 : "ADD TO CART"}
             </button>
-            <p className='product-description'>{desc}</p>
+            <p className='product-description'>{RenderHTML()}</p>
           </div>
         </Container>
       </section>
