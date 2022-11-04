@@ -59,6 +59,7 @@ export const cartReducer = (state = initState, { type, payload }) => {
 
       if (state.cart.length === 0) {
         state.amount = 0;
+        state.total = 0;
       }
 
       return {
