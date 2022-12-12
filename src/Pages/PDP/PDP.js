@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import "./PDP.css";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import Container from "../../Components/Container/Container";
-import { addItemID, addToCart } from "../../redux/actions/cartActions";
+import { addItemId, addToCart } from "../../redux/Slices/cartSlice";
+import {createDefaultAttributes, createIdforPdp} from "../../Helpers/helpers";
 
-export class PDP extends Component {
+export class PDP extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -18,62 +19,36 @@ export class PDP extends Component {
     this.changeColor = this.changeColor.bind(this);
     this.handleAttributeClick = this.handleAttributeClick.bind(this);
   }
-
   changeImgIndex(index) {
     this.setState({
       imgIndex: index,
     });
   }
-
   addToCartHandler(item) {
-    let defaultAttributes = [];
-
-    for (let i = 0; i < item.attributes.length; i++) {
-      defaultAttributes = {
-        ...defaultAttributes,
-        [item.attributes[i].name.toLowerCase()]:
-          item.attributes[i].items[0].value,
-      };
-    }
-
+    let defaultAttributes = createDefaultAttributes(item)
     let customizedItem = {
       ...item,
       selectedAttributes:
         this.state.selectedAttributes.length === 0
           ? [{ ...defaultAttributes }]
           : [{ ...this.state.selectedAttributes }],
-      itemID:
-        this.state.selectedAttributes.length === 0
-          ? `${item.id}${Object.values(defaultAttributes)}`
-          : `${item.id}${Object.values(this.state.selectedAttributes)}`,
+      itemID:createIdforPdp(this.state,item,defaultAttributes),
     };
-
     this.props.addToCart(customizedItem);
-
-    this.props.addItemID(
-      this.state.selectedAttributes.length === 0
-        ? `${item.id}${Object.values(defaultAttributes)}`
-        : `${item.id}${Object.values(this.state.selectedAttributes)}`
-    );
+    this.props.addItemID(createIdforPdp(this.state,item,defaultAttributes))
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.selectedAttributes !== this.state.selectedAttributes) {
+      const item = this.props.location.state.item;
+      let defaultAttributes = createDefaultAttributes(item)
+      this.props.addItemID(createIdforPdp(this.state,item,defaultAttributes));
+    }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.selectedAttributes != this.state.selectedAttributes) {
-      const item = this.props.location.state.item;
-      let defaultAttributes = [];
-      for (let i = 0; i < item.attributes.length; i++) {
-        defaultAttributes = {
-          ...defaultAttributes,
-          [item.attributes[i].name.toLowerCase()]:
-            item.attributes[i].items[0].value,
-        };
-      }
-      this.props.addItemID(
-        this.state.selectedAttributes.length === 0
-          ? `${item.id}${Object.values(defaultAttributes)}`
-          : `${item.id}${Object.values(this.state.selectedAttributes)}`
-      );
-    }
+  componentDidMount() {
+    const item = this.props.location.state.item;
+    let defaultAttributes = createDefaultAttributes(item)
+    this.props.addItemID(`${item.id}${Object.values(defaultAttributes)}`);
   }
 
   changeColor(color) {
@@ -83,37 +58,29 @@ export class PDP extends Component {
   }
   handleAttributeClick(attrItem, attribute, id) {
     const item = this.props.location.state.item;
-
-    let defaultAttributes = [];
-    for (let i = 0; i < item.attributes.length; i++) {
-      defaultAttributes = {
-        ...defaultAttributes,
-        [item.attributes[i].name.toLowerCase()]:
-          item.attributes[i].items[0].value,
-      };
-    }
     attrItem = { ...attrItem, active: true };
-
     this.setState({
       selectedAttributes: {
         ...this.state.selectedAttributes,
         [attribute.name.toLowerCase()]: attrItem.value,
       },
     });
-    this.props.addItemID(
-      `${item.id}${Object.values(this.state.selectedAttributes)}`
-    );
+    this.props.addItemID(`${item.id}${Object.values(this.state.selectedAttributes)}`);
   }
 
   render() {
-    const { id, name, gallery, description, brand, prices, attributes } =
+    const { id, name, gallery, description, brand, prices, attributes,inStock } =
       this.props.location.state.item;
-    const RenderHTML = () => {
-      return <div dangerouslySetInnerHTML={{ __html: description }} />;
+    const renderHTML = () => {
+        return <p dangerouslySetInnerHTML={{ __html: description }} />;
     };
-
-    console.log(RenderHTML());
-
+    const renderButtonText = () => {
+       return this.props.cart.find(
+            (cartItem) => cartItem.itemID === this.props.itemID
+        )
+            ? "REMOVE FROM CART"
+            : "ADD TO CART"
+    }
     return (
       <section className='PDP'>
         <Container className='PDP-container'>
@@ -126,7 +93,6 @@ export class PDP extends Component {
                       key={index}
                       className='small_img'
                       onClick={() => this.changeImgIndex(index)}>
-                      {" "}
                       <img src={image} alt={id} />{" "}
                     </div>
                   );
@@ -134,9 +100,16 @@ export class PDP extends Component {
             </div>
             <div className='big_image'>
               <img src={gallery[this.state.imgIndex]} alt='' />
+              <p
+                  className={
+                    inStock
+                        ? "out-of-stock-text"
+                        : "out-of-stock-text out-of-stock-text-active"
+                  }>
+                OUT OF STOCK
+              </p>
             </div>
           </div>
-
           <div className='description'>
             <h1 className='brand'>{brand}</h1>
             <p className='product-title'>{name}</p>
@@ -150,7 +123,6 @@ export class PDP extends Component {
                         {attribute.items.map((attrItem, index) => {
                           return (
                             <div key={index}>
-                              {" "}
                               <div
                                 className={
                                   this.state.selectedAttributes[
@@ -167,7 +139,7 @@ export class PDP extends Component {
                                   )
                                 }>
                                 {attrItem.displayValue}
-                              </div>{" "}
+                              </div>
                             </div>
                           );
                         })}
@@ -211,17 +183,14 @@ export class PDP extends Component {
             </p>
 
             <button
+                disabled={!inStock}
               className='PDP-add-to-cart'
               onClick={() =>
                 this.addToCartHandler(this.props.location.state.item)
               }>
-              {this.props.cart.find(
-                (cartItem) => cartItem.itemID === this.props.itemID
-              )
-                ? "REMOVE FROM CART"
-                : "ADD TO CART"}
+              {renderButtonText()}
             </button>
-            <p className='product-description'>{RenderHTML()}</p>
+            {renderHTML()}
           </div>
         </Container>
       </section>
@@ -230,18 +199,18 @@ export class PDP extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    products: state.products.products,
-    currencyIndex: state.products.currencyIndex,
+    products: state.product.products,
+    currencyIndex: state.product.currencyIndex,
     cart: state.cart.cart,
     itemID: state.cart.itemID,
+
+
   };
 };
-
 const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (item) => dispatch(addToCart(item)),
-    addItemID: (id) => dispatch(addItemID(id)),
+    addItemID: (id) => dispatch(addItemId(id)),
   };
 };
-
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PDP));

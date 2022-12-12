@@ -1,35 +1,24 @@
-import React, { Component } from "react";
+import React, {PureComponent} from "react";
 import "./Navbar.css";
 import Logo from "../../assets/Logo.svg";
 import DropDown from "../../assets/DropDown.svg";
 import Cart from "../../assets/Cart.svg";
 import { connect } from "react-redux";
-import { changeCategory } from "../../redux/actions/productActions";
+import { changeCategory } from "../../redux/Slices/productSlice";
 import Currency from "../Currency/Currency";
 import { graphql } from "react-apollo";
-import { gql } from "graphql-tag";
 import { Link } from "react-router-dom";
 import CartOverlay from "../cartOverlay/CartOverlay";
 import Container from "../Container/Container";
 import {
   openCartOverlay,
   closeCartOverlay,
-} from "../../redux/actions/cartActions";
+} from "../../redux/Slices/cartSlice";
+import {CATEGORY_QUERY} from '../../Queries/queries'
 
-// Fetch categories //
-
-const CATEGORY_QUERY = gql`
-  query {
-    categories {
-      name
-    }
-  }
-`;
-
-class Navbar extends Component {
+class Navbar extends PureComponent {
   constructor() {
     super();
-
     this.state = {
       showCurrencies: false,
       activeCurrency: "$",
@@ -75,8 +64,9 @@ class Navbar extends Component {
                 );
               })}
           </ul>
-          <img src={Logo} alt='logo' className='logo' />
-
+          <Link to={'/'}>
+            <img src={Logo} alt='logo' className='logo'  onClick={() => this.props.changeCategory('all')} />
+          </Link>
           <div className='currency-and-cart'>
             <div className='currency' onClick={this.showCurrencyHandler}>
               <div className='currency-symbol'>{this.state.activeCurrency}</div>
@@ -97,7 +87,6 @@ class Navbar extends Component {
             showCurrencies={this.state.showCurrencies}
             activeCurrency={this.state.activeCurrency}
             changeCurrency={this.changeCurrency}
-            setState={this.setState()}
             showCurrencyHandler={this.showCurrencyHandler}
           />
         </Container>
@@ -109,10 +98,11 @@ class Navbar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    products: state.products.products,
-    category: state.products.category,
+    products: state.product.products,
+    category: state.product.category,
     showCartOverlay: state.cart.showCartOverlay,
     amount: state.cart.amount,
+    currencyIndex: state.product.currencyIndex,
   };
 };
 

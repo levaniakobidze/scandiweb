@@ -1,20 +1,11 @@
-import React, { Component } from "react";
+import React, {PureComponent} from "react";
 import { connect } from "react-redux";
-import { changeCurrencyIndex } from "../../redux/actions/productActions";
-import { gql } from "graphql-tag";
+import { changeCurrencyIndex } from "../../redux/Slices/productSlice";
 import { graphql } from "react-apollo";
 import "./Currency.css";
+import {CURRENCY_QUERY} from '../../Queries/queries'
 
-const CURRENCY_QUERY = gql`
-  query {
-    currencies {
-      label
-      symbol
-    }
-  }
-`;
-
-class Currency extends Component {
+class Currency extends PureComponent {
   render() {
     const currencies = this.props.data.currencies;
     const handleCurrencyClick = (index, symbol) => {
@@ -53,7 +44,7 @@ class Currency extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    currencyIndex: state.products.currencyIndex,
+    currencyIndex: state.product.currencyIndex,
   };
 };
 

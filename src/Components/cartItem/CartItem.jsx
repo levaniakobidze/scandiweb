@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, {PureComponent} from "react";
 import "./CartItem.css";
 import { connect } from "react-redux";
-import { increaseQty, decreaseQty } from "../../redux/actions/cartActions";
+import { increaseQty, decreaseQty } from "../../redux/Slices/cartSlice";
 
-class CartItem extends Component {
+class CartItem extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -34,7 +34,6 @@ class CartItem extends Component {
       });
     }
   }
-
   render() {
     const {
       itemID,
@@ -115,7 +114,6 @@ class CartItem extends Component {
                   );
                 }
               })}
-
             {/* ///////////////////////////////////// */}
           </div>
         </div>
@@ -155,10 +153,9 @@ class CartItem extends Component {
 const mapStateToProps = (state) => {
   return {
     cart: state.cart.cart,
-    currencyIndex: state.products.currencyIndex,
+    currencyIndex: state.product.currencyIndex,
   };
 };
-
 const mapDispatchToProps = (dispatch) => {
   return {
     increaseQty: (id) => dispatch(increaseQty(id)),

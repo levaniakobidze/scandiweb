@@ -13,8 +13,8 @@ class Cart extends Component {
           <h1 className='cart-title'> Cart </h1>
           <div className='cart-items-list-wrapper'>
             {cart.length ? (
-              cart.map((item) => {
-                return <CartItem {...item} />;
+              cart.map((item,index) => {
+                return <CartItem key={index} {...item} />;
               })
             ) : (
               <p>Cart is empty</p>
@@ -56,8 +56,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default connect(mapStateToProps)(Cart);

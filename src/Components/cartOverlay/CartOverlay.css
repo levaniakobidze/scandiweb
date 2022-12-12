@@ -19,6 +19,8 @@
 }
 .cart-overlay-wrapper {
   width: 330px;
+  max-height: 677px;
+  height: 80%;
   background-color: #fff;
   padding: 0 10px;
   display: flex;
@@ -33,13 +35,14 @@
   /* identical to box height, or 26px */
   color: #1d1f22;
   padding: 10px 0;
+  ;
 }
 .my-bag span {
   color: #545558;
 }
 .cart-overlay-list {
   overflow-y: scroll;
-  height: 400px;
+  height: 100vh;
   overflow-x: hidden;
 }
 .total-cont {

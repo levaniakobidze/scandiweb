@@ -11,13 +11,14 @@
   display: flex;
   flex-wrap: wrap;
 }
-
 .small_images {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 500px;
   overflow-y: scroll;
+  /*background: red;*/
+  margin-right: 25px;
 }
 .small_images::-webkit-scrollbar {
   display: none;
@@ -48,6 +49,8 @@
   flex: 1;
   height: auto;
   margin: 10px;
+  margin-left: 50px;
+
 }
 .PDP-add-to-cart {
   border: 0;
@@ -232,4 +235,12 @@
   .gallery_wrapper {
     width: 100%;
   }
+  .small_images{
+    margin-right: 0px;
+  }
+  .description{
+    margin-left: 0px;
+  }
 }
+
+

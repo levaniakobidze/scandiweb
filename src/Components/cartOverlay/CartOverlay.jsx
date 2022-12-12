@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React, {PureComponent} from "react";
 import "./CartOverlay.css";
-import { closeCartOverlay } from "../../redux/actions/cartActions";
+import { closeCartOverlay } from "../../redux/Slices/cartSlice";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import OverlayItem from "../overlayItem/OverlayItem";
 import Container from "../Container/Container";
 
-class cartOverlay extends Component {
+class cartOverlay extends PureComponent {
   constructor() {
     super();
 
@@ -26,8 +26,8 @@ class cartOverlay extends Component {
               My Bag, <span>{this.props.amount} items</span>
             </p>
             <div className='cart-overlay-list'>
-              {this.props.cart.map((item) => {
-                return <OverlayItem key={item.id} {...item} />;
+              {this.props.cart.map((item,index) => {
+                return <OverlayItem key={index} {...item} />;
               })}
             </div>
             <div className='total-cont'>

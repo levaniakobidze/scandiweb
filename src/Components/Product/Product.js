@@ -1,39 +1,28 @@
-import React, { Component } from "react";
+import React, {PureComponent} from "react";
 import "./Product.css";
 import { Link } from "react-router-dom";
 import store from "../../assets/store.svg";
 import { connect } from "react-redux";
-import { addItemID } from "../../redux/actions/cartActions";
+import { addItemId } from "../../redux/Slices/cartSlice";
+import {createDefaultAttributes,createIdforProduct} from "../../Helpers/helpers";
 
-class Product extends Component {
+class Product extends PureComponent {
   render() {
     const addToCartHandler = (item) => {
-      let defaultAttributes = [];
-      for (let i = 0; i < item.attributes.length; i++) {
-        defaultAttributes = {
-          ...defaultAttributes,
-          [item.attributes[i].name.toLowerCase()]:
-            item.attributes[i].items[0].value,
-        };
-      }
+        let defaultAttributes = createDefaultAttributes(item);
       const customizedItem = {
         ...item,
         itemID: `${item.id}${Object.values(defaultAttributes)}`,
         selectedAttributes: [{ ...defaultAttributes }],
       };
       this.props.addToCart(customizedItem);
-      this.props.addItemID(
-        customizedItem.selectedAttributes.length === 0
-          ? `${item.id}${Object.values(defaultAttributes)}`
-          : `${item.id}${Object.values(defaultAttributes)}`
-      );
+      this.props.addItemID(createIdforProduct(customizedItem,item,defaultAttributes));
     };
-
     const { id, item, name, gallery, prices, currencyIndex, inStock } =
       this.props;
     return (
       <div className='product-wrapper'>
-        <Link key={id} to={{ pathname: `/PDP/${id}`, state: { item } }}>
+        <Link key={id} to={{ pathname: `/PDP/${id}`, state: { item} }}>
           <div key={id} className='list-item'>
             <div
               className={inStock ? "product-img" : "product-img out-of-stock"}>
@@ -47,7 +36,6 @@ class Product extends Component {
                 OUT OF STOCK
               </p>
             </div>
-
             <p>{name}</p>
             <span>
               {prices[currencyIndex].currency.symbol}
@@ -56,6 +44,7 @@ class Product extends Component {
           </div>
         </Link>
         <button
+            disabled={!inStock}
           className={"addToCart-btn"}
           onClick={() => addToCartHandler(item)}>
           {!this.props.cart.find((cartItem) => cartItem.id === item.id) ? (
@@ -74,11 +63,9 @@ const mapStateToProps = (state) => {
     itemID: state.itemID,
   };
 };
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    addItemID: (id) => dispatch(addItemID(id)),
+    addItemID: (id) => dispatch(addItemId(id)),
   };
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

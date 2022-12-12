@@ -53,6 +53,9 @@
 .categories-nav a:nth-child(2) {
   padding: 16px;
 }
+.logo{
+  cursor: pointer;
+}
 .currency-and-cart {
   display: flex;
   align-items: center;
@@ -75,6 +78,9 @@
 }
 .currency-dropdown {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
 }
 .currency-active {
   display: flex !important;

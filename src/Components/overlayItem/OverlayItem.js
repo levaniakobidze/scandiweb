@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, {PureComponent} from "react";
 import { connect } from "react-redux";
 import "./OverlayItem.css";
-import { increaseQty, decreaseQty } from "../../redux/actions/cartActions";
-class OverlayItem extends Component {
+import { increaseQty, decreaseQty } from "../../redux/Slices/cartSlice";
+
+class OverlayItem extends PureComponent {
   constructor() {
     super();
 
@@ -129,7 +130,7 @@ class OverlayItem extends Component {
 const mapStateToProps = (state) => {
   return {
     cart: state.cart.cart,
-    currencyIndex: state.products.currencyIndex,
+    currencyIndex: state.product.currencyIndex,
   };
 };
 

@@ -1,46 +1,12 @@
 import React, { Component } from "react";
 import "./ProductListing.css";
-import { gql } from "graphql-tag";
 import { connect } from "react-redux";
-import { setProducts } from "../../redux/actions/productActions";
 import { graphql } from "react-apollo";
 import Product from "../../Components/Product/Product";
-import { addToCart } from "../../redux/actions/cartActions";
+import {PRODUCTS_QUERY} from '../../Queries/queries'
+import {setProducts} from '../../redux/Slices/productSlice'
+import {addToCart} from '../../redux/Slices/cartSlice'
 
-// Fetch products //
-const PRODUCTS_QUERY = gql`
-  query {
-    categories {
-      name
-      products {
-        id
-        name
-        inStock
-        gallery
-        description
-        category
-        attributes {
-          id
-          name
-          type
-          items {
-            id
-            value
-            displayValue
-          }
-        }
-        prices {
-          currency {
-            label
-            symbol
-          }
-          amount
-        }
-        brand
-      }
-    }
-  }
-`;
 
 class ProductListing extends Component {
   componentDidUpdate() {
@@ -54,7 +20,6 @@ class ProductListing extends Component {
 
   render() {
     const products = this.props.products;
-    console.log(products);
     return (
       products.length &&
       products.map((item) => {
@@ -79,11 +44,11 @@ class ProductListing extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    products: state.products.products,
-    category: state.products.category,
-    currencyIndex: state.products.currencyIndex,
+    products: state.product.products,
+    category: state.product.category,
+    currencyIndex: state.product.currencyIndex,
     cart: state.cart.cart,
-  };
+  }
 };
 
 const mapDispatchToProps = (dispatch) => {

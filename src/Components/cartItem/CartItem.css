@@ -20,7 +20,7 @@
 .cart-item-amount {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin-right: 20px;
 }
@@ -47,8 +47,8 @@
 .image-buttons {
   position: absolute;
   display: flex;
-  bottom: 15%;
-  right: 20%;
+  bottom: 7%;
+  right: 10%;
 }
 .image-buttons button {
   width: 25px;
@@ -111,7 +111,6 @@
 
 .cart-item-color-cont {
   width: 32px;
-  cursor: pointer;
   height: 32px;
   margin-right: 5px;
   transition: all 0.3s;
@@ -130,7 +129,6 @@
   justify-content: center;
   align-items: center;
   margin-right: 5px;
-  cursor: pointer;
   font-family: "Source Sans Pro";
   font-style: normal;
   font-weight: 400;
