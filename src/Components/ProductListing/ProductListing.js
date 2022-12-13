@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {PureComponent} from "react";
 import "./ProductListing.css";
 import { connect } from "react-redux";
 import { graphql } from "react-apollo";
@@ -8,7 +8,7 @@ import {setProducts} from '../../redux/Slices/productSlice'
 import {addToCart} from '../../redux/Slices/cartSlice'
 
 
-class ProductListing extends Component {
+class ProductListing extends PureComponent {
   componentDidUpdate() {
     const categories = this.props.data.categories;
     const products =
@@ -17,7 +17,6 @@ class ProductListing extends Component {
         .products;
     products && this.props.setProducts(products);
   }
-
   render() {
     const products = this.props.products;
     return (

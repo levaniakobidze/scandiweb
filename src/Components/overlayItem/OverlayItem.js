@@ -2,6 +2,8 @@ import React, {PureComponent} from "react";
 import { connect } from "react-redux";
 import "./OverlayItem.css";
 import { increaseQty, decreaseQty } from "../../redux/Slices/cartSlice";
+import TextAttributes from "../overlayItemComponents/attributes/TextAttributes";
+import ColorAttributes from "../overlayItemComponents/attributes/ColorAttributes";
 
 class OverlayItem extends PureComponent {
   constructor() {
@@ -42,63 +44,18 @@ class OverlayItem extends PureComponent {
             {attributes &&
               attributes.map((attribute, attributeIndex) => {
                 if (attribute.type === "text") {
-                  return (
-                    <div key={attributeIndex} className='attribute-wrapper'>
-                      <p className='overlay-attribute-name'>
-                        {attribute.name}:
-                      </p>
-                      <div className='attribute'>
-                        {attribute.items.map((item, itemIndex) => {
-                          return (
-                            <div key={itemIndex}>
-                              {" "}
-                              <div
-                                className={
-                                  selectedAttributes[0][
-                                    `${attribute.name.toLowerCase()}`
-                                  ] != undefined &&
-                                  selectedAttributes[0][
-                                    `${attribute.name.toLowerCase()}`
-                                  ] === item.value
-                                    ? "overlay-cart-item-text-cont overlay-cart-item-text-cont-active "
-                                    : "overlay-cart-item-text-cont"
-                                }>
-                                {item.displayValue}
-                              </div>{" "}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
+                  return <TextAttributes
+                  key={attributeIndex}
+                  attribute={attribute}
+                  selectedAttributes={selectedAttributes}
+                  />
                 }
                 if (attribute.type === "swatch" && attribute.name === "Color") {
-                  return (
-                    <div className='attribute-wrapper'>
-                      <p className='overlay-attribute-name'>
-                        {attribute.name}:
-                      </p>
-                      <div className='attribute'>
-                        {attribute.items.map((item, index) => {
-                          return (
-                            <div
-                              key={index}
-                              style={{ background: item.value }}
-                              className={
-                                selectedAttributes[0][
-                                  `${attribute.name.toLowerCase()}`
-                                ] != undefined &&
-                                selectedAttributes[0][
-                                  `${attribute.name.toLowerCase()}`
-                                ] === item.value
-                                  ? "overlay-cart-item-color-cont cart-item-color-active"
-                                  : "overlay-cart-item-color-cont"
-                              }></div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
+                  return <ColorAttributes
+                      key={attributeIndex}
+                      attribute={attribute}
+                      selectedAttributes={selectedAttributes}
+                  />;
                 }
               })}
           </div>

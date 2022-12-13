@@ -5,6 +5,9 @@ import { withRouter } from "react-router";
 import Container from "../../Components/Container/Container";
 import { addItemId, addToCart } from "../../redux/Slices/cartSlice";
 import {createDefaultAttributes, createIdforPdp} from "../../Helpers/helpers";
+import parse from 'html-react-parser'
+import ColorAttributes from "../../Components/PDPattributes/ColorAttributes";
+import TextAttributes from "../../Components/PDPattributes/TextAttributes";
 
 export class PDP extends PureComponent {
   constructor() {
@@ -71,15 +74,11 @@ export class PDP extends PureComponent {
   render() {
     const { id, name, gallery, description, brand, prices, attributes,inStock } =
       this.props.location.state.item;
-    const renderHTML = () => {
-        return <p dangerouslySetInnerHTML={{ __html: description }} />;
-    };
     const renderButtonText = () => {
        return this.props.cart.find(
             (cartItem) => cartItem.itemID === this.props.itemID
-        )
-            ? "REMOVE FROM CART"
-            : "ADD TO CART"
+        ) ? "REMOVE FROM CART"
+           : "ADD TO CART"
     }
     return (
       <section className='PDP'>
@@ -116,62 +115,21 @@ export class PDP extends PureComponent {
             {attributes &&
               attributes.map((attribute, index) => {
                 if (attribute.type === "text") {
-                  return (
-                    <div className='attribute-wrapper' key={index}>
-                      <p className='attribute-name'>{attribute.name}:</p>
-                      <div className='attribute'>
-                        {attribute.items.map((attrItem, index) => {
-                          return (
-                            <div key={index}>
-                              <div
-                                className={
-                                  this.state.selectedAttributes[
-                                    `${attribute.name.toLowerCase()}`
-                                  ] === attrItem.value
-                                    ? "text-cont text-cont-active"
-                                    : "text-cont"
-                                }
-                                onClick={() =>
-                                  this.handleAttributeClick(
-                                    attrItem,
-                                    attribute,
-                                    id
-                                  )
-                                }>
-                                {attrItem.displayValue}
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
+                  return <TextAttributes
+                  key={index}
+                  attribute={attribute}
+                  selectedAttributes={this.state.selectedAttributes}
+                  handleAttributeClick={this.handleAttributeClick}
+                  id={id}
+                  />
                 }
                 if (attribute.type === "swatch" && attribute.name === "Color") {
-                  return (
-                    <div className='attribute-wrapper' key={index}>
-                      <p className='attribute-name'>{attribute.name}:</p>
-                      <div className='attribute'>
-                        {attribute.items.map((attrItem, index) => {
-                          return (
-                            <div
-                              key={index}
-                              style={{ background: attrItem.value }}
-                              className={
-                                this.state.selectedAttributes[
-                                  `${attribute.name.toLowerCase()}`
-                                ] === attrItem.value
-                                  ? "color-cont color-active"
-                                  : "color-cont"
-                              }
-                              onClick={() =>
-                                this.handleAttributeClick(attrItem, attribute)
-                              }></div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
+                  return  <ColorAttributes
+                  key={index}
+                  attribute={attribute}
+                  handleAttributeClick={this.handleAttributeClick}
+                  selectedAttributes={this.state.selectedAttributes}
+                  />
                 }
               })}
             <p className='PDP-price'>
@@ -190,7 +148,7 @@ export class PDP extends PureComponent {
               }>
               {renderButtonText()}
             </button>
-            {renderHTML()}
+            {parse(description)}
           </div>
         </Container>
       </section>

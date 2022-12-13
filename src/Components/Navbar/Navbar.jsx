@@ -80,7 +80,7 @@ class Navbar extends PureComponent {
             </div>
             <div className='cart' onClick={this.toggleCartOverlay}>
               <img src={Cart} alt='cart' className='cart-btn' />
-              <span className='item-qty'>{this.props.amount}</span>
+              {this.props.amount >= 1 &&<span className='item-qty'>{this.props.amount}</span>}
             </div>
           </div>
           <Currency

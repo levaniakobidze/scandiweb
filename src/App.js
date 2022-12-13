@@ -31,13 +31,13 @@ class App extends PureComponent {
           <Router>
             <Navbar />
             <Switch>
-              <Route exact path={"/PDP/:productId"}>
+              <Route exact path="/PDP/:productId">
                 <PDP />
               </Route>
-              <Route exact path={"/"}>
+              <Route exact path="/">
                 <PLP />
               </Route>
-              <Route exact path={"/cart"}>
+              <Route exact path="/cart">
                 <Cart />
               </Route>
             </Switch>

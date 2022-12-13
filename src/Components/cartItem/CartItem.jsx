@@ -2,6 +2,8 @@ import React, {PureComponent} from "react";
 import "./CartItem.css";
 import { connect } from "react-redux";
 import { increaseQty, decreaseQty } from "../../redux/Slices/cartSlice";
+import TextAttributes from "../cartItemComponents/attributes/TextAttributes";
+import ColorAttributes from "../cartItemComponents/attributes/ColorAttributes";
 
 class CartItem extends PureComponent {
   constructor() {
@@ -59,62 +61,20 @@ class CartItem extends PureComponent {
             {attributes &&
               attributes.map((attribute, attributeIndex) => {
                 if (attribute.type === "text") {
-                  return (
-                    <div key={attributeIndex} className='attribute-wrapper'>
-                      <p className='attribute-name'>{attribute.name}:</p>
-                      <div className='attribute'>
-                        {attribute.items.map((item, itemIndex) => {
-                          return (
-                            <div key={itemIndex}>
-                              {" "}
-                              <div
-                                className={
-                                  selectedAttributes[0][
-                                    `${attribute.name.toLowerCase()}`
-                                  ] != undefined &&
-                                  selectedAttributes[0][
-                                    `${attribute.name.toLowerCase()}`
-                                  ] === item.value
-                                    ? "  cart-item-text-cont-active "
-                                    : " cart-item-text-cont"
-                                }>
-                                {item.displayValue}
-                              </div>{" "}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
+                  return <TextAttributes
+                  key={attributeIndex}
+                  attribute={attribute}
+                  selectedAttributes={selectedAttributes}
+                  />;
                 }
                 if (attribute.type === "swatch" && attribute.name === "Color") {
-                  return (
-                    <div className='attribute-wrapper'>
-                      <p className='attribute-name'>{attribute.name}:</p>
-                      <div className='attribute'>
-                        {attribute.items.map((item, index) => {
-                          return (
-                            <div
-                              key={index}
-                              style={{ background: item.value }}
-                              className={
-                                selectedAttributes[0][
-                                  `${attribute.name.toLowerCase()}`
-                                ] != undefined &&
-                                selectedAttributes[0][
-                                  `${attribute.name.toLowerCase()}`
-                                ] === item.value
-                                  ? "cart-item-color-cont cart-item-color-active"
-                                  : "cart-item-color-cont"
-                              }></div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
+                  return <ColorAttributes
+                      key={attributeIndex}
+                      attribute={attribute}
+                      selectedAttributes={selectedAttributes}
+                  />
                 }
               })}
-            {/* ///////////////////////////////////// */}
           </div>
         </div>
         <div className='cart-item-amount-images'>
